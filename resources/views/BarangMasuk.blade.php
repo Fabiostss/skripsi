@@ -64,14 +64,14 @@
                         @csrf
                         <div class="row mb-3">
                             <div class="col-md-9">
-                                <!-- <label for="supplier_id" class="form-label">Supplier</label>
+                                <label for="supplier_id" class="form-label">Supplier</label>
                                         <select name="supplier_id" id="supplier_id" class="form-select" required>
                                             <option value="">-- Pilih Supplier --</option>
                                             @foreach($suppliers as $s)
                                                 <option value="{{ $s->supplier_id }}">{{ $s->nama_supplier }}</option>
                                             @endforeach
-                                        </select> -->
-                                <label for="supplier_input" class="form-label">Supplier</label>
+                                        </select>
+                                <!-- <label for="supplier_input" class="form-label">Supplier</label>
                                 {{-- Input Combobox Supplier --}}
                                 <input list="supplierList" id="supplier_input" name="supplier_nama" class="form-control"
                                     placeholder="Ketik nama supplier..." required>
@@ -79,10 +79,10 @@
                                     @foreach($suppliers as $s)
                                         <option data-id="{{ $s->supplier_id }}" value="{{ $s->nama_supplier }}"></option>
                                     @endforeach
-                                </datalist>
+                                </datalist> -->
 
                                 <!-- hidden field untuk dikirim ke server -->
-                                <input type="hidden" name="supplier_id" id="supplier_id">
+                                <!-- <input type="hidden" name="supplier_id" id="supplier_id"> -->
 
                             </div>
 
@@ -98,15 +98,15 @@
                         {{-- Produk Dinamis --}}
                         <div class="row mb-3">
                             <div class="col-md-8">
-                                <!-- <label class="form-label">Pilih Produk</label>
+                                <label class="form-label">Pilih Produk</label>
                                         <select id="produkSelect" class="form-select">
                                             <option value="">-- Pilih Produk --</option>
                                             @foreach($products as $p)
                                                 <option value="{{ $p->produk_id }}">{{ $p->nama_produk }}</option>
                                             @endforeach
-                                        </select> -->
+                                        </select>
 
-                                <label class="form-label">Pilih Produk</label>
+                                <!-- <label class="form-label">Pilih Produk</label>
                                 {{-- Input Combobox Produk --}}
                                 <input list="produkList" id="produkInput" class="form-control"
                                     placeholder="Ketik nama produk...">
@@ -114,10 +114,11 @@
                                     @foreach($products as $p)
                                         <option data-id="{{ $p->produk_id }}" value="{{ $p->nama_produk }}"></option>
                                     @endforeach
-                                </datalist>
+                                </datalist> -->
                             </div>
-
-                            <input type="hidden" id="produk_id">
+                            
+                            <!-- hiden fi bka kalo misalnya mau buat combo box -->
+                            <!-- <input type="hidden" id="produk_id"> -->
                             <div class="col-md-1 d-flex align-items-end">
                                 <button type="button" id="addProdukBtn" class="btn btn-info">Tambah</button>
                             </div>
@@ -384,178 +385,102 @@
 
 
 
-            let selectedProduk = []; // Array untuk melacak produk yang sudah ada di tabel
+            
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // --- BAGIAN 1: SCRIPT UNTUK DROPDOWN PRODUK ---
+        
+        // Array untuk mencatat ID produk yang sudah di tabel (mencegah duplikat)
+        let selectedProduk = []; 
 
-            // 1. Event Listener untuk Tombol "Tambah"
-            document.getElementById('addProdukBtn').addEventListener('click', function () {
+        // 1. Logika Tombol "Tambah"
+        document.getElementById('addProdukBtn').addEventListener('click', function () {
+            // Ambil elemen select produk
+            // DIUBAH: ID disesuaikan menjadi 'produkSelect' (tanpa underscore)
+            let select = document.getElementById('produkSelect'); 
+            let tableBody = document.querySelector('#produkTable tbody');
+            
+            // Ambil ID dan Teks dari yang dipilih
+            let produkId = select.value; 
+            let produkText = select.options[select.selectedIndex].text;
 
-                // --- VALIDASI SUPPLIER (Tambahan) ---
-                let supplierInput = document.getElementById('supplier_input');
-                let supplierList = document.getElementById('supplierList');
-                let supplierName = supplierInput.value.trim();
+            // Validasi 1: Sudah pilih produk?
+            if (!produkId) {
+                alert("Silakan pilih produk terlebih dahulu.");
+                return; 
+            }
 
-                if (supplierName === '') {
-                    alert("Silakan pilih supplier terlebih dahulu!");
-                    supplierInput.focus();
-                    return; // Berhenti jika supplier kosong
-                }
+            // Validasi 2: Cek duplikat
+            if (selectedProduk.includes(produkId)) {
+                alert("Produk ini sudah ditambahkan!");
+                return;
+            }
+            
+            // Lolos validasi: catat ID-nya
+            selectedProduk.push(produkId);
 
-                let supplierValid = false;
-                for (let option of supplierList.options) {
-                    if (option.value.toLowerCase() === supplierName.toLowerCase()) {
-                        supplierValid = true;
-                        break;
-                    }
-                }
+            // Buat baris tabel baru
+            let row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    ${produkText}
+                    <input type="hidden" name="produk_id[]" value="${produkId}">
+                </td>
+                <td>
+                    <input type="number" name="jumlah[]" value="1" min="1" class="form-control">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm removeRow" data-id="${produkId}">Hapus</button>
+                </td>
+            `;
+            
+            tableBody.appendChild(row); // Masukkan baris ke tabel
+            select.value = ''; // Kosongkan dropdown
+        });
 
-                if (!supplierValid) {
-                    alert("Supplier tidak ditemukan di master! Silakan pilih dari daftar.");
-                    supplierInput.focus();
-                    return; // Berhenti jika supplier tidak valid
-                }
-                // --- AKHIR VALIDASI SUPPLIER ---
+        // 2. Logika Tombol "Hapus"
+        document.addEventListener('click', function (e) {
+            // Cek jika yang diklik adalah tombol .removeRow
+            if (e.target.classList.contains('removeRow')) {
+                let produkIdToRemove = e.target.getAttribute('data-id');
+                
+                // Hapus ID dari array pencatat
+                selectedProduk = selectedProduk.filter(id => id !== produkIdToRemove); 
+                
+                // Hapus baris <tr>
+                e.target.closest('tr').remove();
+            }
+        });
 
+        // --- BAGIAN 2: SCRIPT UNTUK VALIDASI SUBMIT ---
+        
+        // Pasang pendengar di form saat di-submit (tombol Simpan Transaksi)
+        document.querySelector('form').addEventListener('submit', function (e) {
+            
+            // Ambil elemen select supplier
+            // DIUBAH: ID disesuaikan menjadi 'supplier_id'
+            let supplierSelect = document.getElementById('supplier_id');
 
-                // --- VALIDASI PRODUK (Logika Anda sebelumnya) ---
-                let produkInput = document.getElementById('produkInput');
-                let tableBody = document.querySelector('#produkTable tbody');
-                let namaProduk = produkInput.value.trim();
+            // Validasi 1: Supplier harus dipilih
+            if (!supplierSelect.value) {
+                e.preventDefault(); // Hentikan submit form
+                alert("Silakan pilih supplier terlebih dahulu!");
+                supplierSelect.focus();
+                return;
+            }
 
-                if (namaProduk === '') {
-                    alert("Silakan pilih produk terlebih dahulu!");
-                    produkInput.focus();
-                    return; // Berhenti jika produk kosong
-                }
+            // Validasi 2: Minimal 1 produk di tabel
+            if (selectedProduk.length === 0) {
+                e.preventDefault(); // Hentikan submit form
+                alert("Tambahkan minimal satu produk sebelum menyimpan transaksi!");
+                return;
+            }
+        });
 
-                // Cek apakah nama produk ada di datalist
-                let produkDatalist = document.getElementById('produkList');
-                let produkValid = false;
-                for (let option of produkDatalist.options) {
-                    if (option.value.toLowerCase() === namaProduk.toLowerCase()) {
-                        produkValid = true;
-                        break;
-                    }
-                }
+    });
 
-                if (!produkValid) {
-                    alert("Produk tidak ada di master! Silakan pilih dari daftar.");
-                    produkInput.value = '';
-                    produkInput.focus();
-                    return; // Berhenti jika produk tidak valid
-                }
-
-                // Cek duplikat
-                if (selectedProduk.includes(namaProduk.toLowerCase())) {
-                    alert("Produk ini sudah ditambahkan!");
-                    produkInput.value = '';
-                    produkInput.focus();
-                    return; // Berhenti jika produk duplikat
-                }
-
-                // --- Lolos Validasi, Tambahkan ke Tabel ---
-                selectedProduk.push(namaProduk.toLowerCase()); // Simpan dalam format lowercase agar konsisten
-                produkHidden = document.getElementById('produk_id');
-                produkId = produkHidden.value;
-
-                let row = document.createElement('tr');
-                row.innerHTML = `
-                        <td>
-                            ${namaProduk}
-
-                             <input type="hidden" name="produk_id[]" value="${produkId}">
-                        </td>
-                        <td>
-                            <input type="number" name="jumlah[]" value="1" min="1" class="form-control">
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger btn-sm removeRow" data-nama="${namaProduk}">Hapus</button>
-                        </td>
-                    `;
-                tableBody.appendChild(row);
-
-                produkInput.value = ''; // reset input produk
-                produkInput.focus(); // Fokus kembali ke input produk
-            });
-
-            // 2. Event Listener untuk Tombol "Hapus" (Perbaikan)
-            document.addEventListener('click', function (e) {
-                if (e.target.classList.contains('removeRow')) {
-                    // Ambil nama produk dari atribut 'data-nama'
-                    let namaProduk = e.target.getAttribute('data-nama');
-
-                    // Hapus produk dari array selectedProduk
-                    selectedProduk = selectedProduk.filter(nama => nama !== namaProduk.toLowerCase());
-
-                    // Hapus baris dari tabel
-                    e.target.closest('tr').remove();
-                }
-            });
-
-            // 3. Event Listener untuk Tombol "Simpan Transaksi" (Validasi Final)
-            document.querySelector('form').addEventListener('submit', function (e) {
-                let supplierInput = document.getElementById('supplier_input');
-                let supplierList = document.getElementById('supplierList');
-                let supplierName = supplierInput.value.trim();
-
-                //  1. Supplier wajib diisi
-                if (supplierName === '') {
-                    e.preventDefault();
-                    alert("Silakan pilih supplier terlebih dahulu!");
-                    supplierInput.focus();
-                    return;
-                }
-
-                //  2. Supplier harus cocok dengan master (double check)
-                let supplierValid = false;
-                for (let option of supplierList.options) {
-                    if (option.value.toLowerCase() === supplierName.toLowerCase()) {
-                        supplierValid = true;
-                        break;
-                    }
-                }
-
-                if (!supplierValid) {
-                    e.preventDefault();
-                    alert("Supplier tidak ditemukan di master supplier!");
-                    supplierInput.value = '';
-                    supplierInput.focus();
-                    return;
-                }
-
-                //  3. Harus ada minimal 1 produk
-                if (selectedProduk.length === 0) {
-                    e.preventDefault();
-                    alert("Tambahkan minimal satu produk sebelum menyimpan transaksi!");
-                    return;
-                }
-            });
-        </script>
-
-
-        <script>
-            document.getElementById('supplier_input').addEventListener('input', function () {
-                const input = this.value;
-                const options = document.querySelectorAll('#supplierList option');
-                const hiddenInput = document.getElementById('supplier_id');
-
-                hiddenInput.value = ''; // reset dulu
-                options.forEach(opt => {
-                    if (opt.value === input) {
-                        hiddenInput.value = opt.getAttribute('data-id');
-                    }
-                });
-            });
-
-            document.getElementById('produkInput').addEventListener('input', function () {
-                document.getElementById('produk_id').value = ''; // reset
-
-                document.querySelectorAll('#produkList option').forEach(opt => {
-                    if (opt.value === this.value) {
-                        document.getElementById('produk_id').value = opt.getAttribute('data-id');
-                    }
-                });
-            });
-        </script>
+   </script>
 
 
 

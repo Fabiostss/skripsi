@@ -87,7 +87,7 @@
                 </tbody>
             </table>
 
-            <a href="{{ url('/barang-masuk') }}" class="btn btn-secondary mt-3">
+            <a href="{{ url('/barang-keluar') }}" class="btn btn-secondary mt-3">
                 Kembali
             </a>
         </div>
