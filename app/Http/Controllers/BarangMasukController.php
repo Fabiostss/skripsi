@@ -93,42 +93,42 @@ class BarangMasukController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'supplier_id' => 'required|exists:suppliers,supplier_id',
-        //     'keterangan' => 'nullable|string',
-        //     'produk_id' => 'required|array',
-        //     'produk_id.*' => 'required|exists:master_produk,produk_id',
-        //     'jumlah' => 'required|array',
-        //     'jumlah.*' => 'required|integer|min:1',
-        // ]);
+        $request->validate([
+            'supplier_id' => 'required|exists:suppliers,supplier_id',
+            'keterangan' => 'nullable|string',
+            'produk_id' => 'required|array',
+            'produk_id.*' => 'required|exists:master_produk,produk_id',
+            'jumlah' => 'required|array',
+            'jumlah.*' => 'required|integer|min:1',
+        ]);
       
-        // try {
-        //     DB::transaction(function () use ($request) {
-        //         $transaksiId = DB::table('barang_masuk')->insertGetId([
-        //             'supplier_id' => $request->supplier_id,
-        //             'user_id' => Auth::id(),
-        //             'tanggal_masuk' => Carbon::now(),
-        //             'keterangan' => $request->keterangan,
-        //         ]);
+        try {
+            DB::transaction(function () use ($request) {
+                $transaksiId = DB::table('barang_masuk')->insertGetId([
+                    'supplier_id' => $request->supplier_id,
+                    'user_id' => Auth::id(),
+                    'tanggal_masuk' => Carbon::now(),
+                    'keterangan' => $request->keterangan,
+                ]);
 
-        //         foreach ($request->produk_id as $key => $produkId) {
-        //             $jumlah = $request->jumlah[$key];
-        //             DB::table('detail_barang_masuk')->insert([
-        //                 'transaksi_masuk_id' => $transaksiId,
-        //                 'produk_id' => $produkId,
-        //                 'jumlah' => $jumlah,
-        //             ]);
+                foreach ($request->produk_id as $key => $produkId) {
+                    $jumlah = $request->jumlah[$key];
+                    DB::table('detail_barang_masuk')->insert([
+                        'transaksi_masuk_id' => $transaksiId,
+                        'produk_id' => $produkId,
+                        'jumlah' => $jumlah,
+                    ]);
 
-        //             DB::table('master_produk')->where('produk_id', $produkId)->increment('stock', $jumlah);
-        //         }
-        //     });
-        // } catch (\Exception $e) {
-        //     return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan transaksi: ' . $e->getMessage());
-        // }
+                    DB::table('master_produk')->where('produk_id', $produkId)->increment('stock', $jumlah);
+                }
+            });
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan transaksi: ' . $e->getMessage());
+        }
         
-        // return redirect()->route('barang-masuk.index')->with('success', 'Transaksi barang masuk berhasil disimpan!');
+        return redirect()->route('barang-masuk.index')->with('success', 'Transaksi barang masuk berhasil disimpan!');
 
-        return $request;
+      
     }
     
     public function detail($id){
