@@ -134,6 +134,7 @@
                                 <th>Tipe</th>
                                 <th>Bahan</th>
                                 <th>Satuan</th>
+                                <!-- <th>Deskripsi</th> -->
                                 <th>Stok</th>
                                 <th class="text-center">Is Active</th>
                                 {{-- untuk menampilkan kolom Aksi --}}
@@ -150,6 +151,7 @@
                                 <td>{{ $product->nama_tipe }}</td>
                                 <td>{{ $product->nama_bahan }}</td>
                                 <td>{{ $product->nama_satuan }}</td>
+                            
                                 <td class="text-center">{{ $product->stock }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('produk.toggleStatus', ['id' => $product->produk_id]) }}" class="text-decoration-none">
@@ -257,6 +259,12 @@
                             </select>
                         </div>
                     </div>
+                    <!-- <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="deskripsi" class="form-label">deskripsi</label>
+                            <input type="text" class="form-control" id="deskripsi" name="deskripsi">
+                        </div>
+                    </div> -->
 
                     <div class="row mb-3">
                         <div class="col-md-6">

@@ -38,7 +38,9 @@
 </head>
 <body>
     <h2>Laporan Stok {{ $kelompok }}</h2>
-    <p class="info">Periode: {{ $tanggalAwal }} s/d {{ $tanggalAkhir }}</p>
+    <p class="info">Periode: {{ $tanggalAwal }} s/d {{ $tanggalAkhir }} <br>
+            Tanggal cetak: {{ now()->format('d-m-Y') }}
+    </p>
 
     {{-- =============================================== --}}
     {{--         AWAL BAGIAN BARU: BLOK RINGKASAN        --}}
@@ -94,7 +96,7 @@
             <tr>
                 <th>ID</th>
                 <th>Nama</th>
-                <th>Stok Akhir</th>
+                <th>Stok saat taggal di cetak</th>
                 <th>Total Keluar</th>
                 <th>Total Masuk</th>
             </tr>

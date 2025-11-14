@@ -16,8 +16,8 @@ class BarangMasukController extends Controller
     {
         try {
             // Data untuk form transaksi utama (semua master data aktif)
-            $suppliersForForm = DB::table('suppliers')->where('is_active', 'yes')->orderBy('nama_supplier', 'asc')->get();
-            $productsForForm = DB::table('master_produk')->where('is_active', 'yes')->orderBy('nama_produk', 'asc')->get();
+            $suppliersForForm = DB::table('suppliers')->where('is_active', 'yes')->orderBy('nama_supplier', 'desc')->get();
+            $productsForForm = DB::table('master_produk')->where('is_active', 'yes')->orderBy('nama_produk', 'desc')->get();
 
             // Data HANYA untuk form filter (berdasarkan data yang ada di transaksi)
             $suppliersForFilter = DB::table('barang_masuk as bm')

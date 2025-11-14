@@ -73,7 +73,7 @@ Route::get('/supplier/toggle-status/{id}', [MasterSupplierController::class, 'to
 Route::get('/User', [MasterUserController::class, 'index'])->name('user.index') ->middleware(['auth', 'role:owner']);
 Route::post('/User', [MasterUserController::class, 'store'])->name('user.store');
 Route::get('/user/toggle-status/{id}', [MasterUserController::class, 'toggleStatus'])->name('user.toggleStatus');
-
+Route::post('/users/update-password/{id}', [MasterUserController::class, 'updatePassword'])->name('users.update-password');
 
 // Route untuk menampilkan halaman Manajemen ROP (GET request)
 Route::get('/rop', [ROPController::class, 'index'])->name('rop.index') ->middleware(['auth', 'role:admin']);

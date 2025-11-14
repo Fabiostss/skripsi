@@ -57,23 +57,30 @@ class ROPController extends Controller
         $products = DB::table('master_produk') ->where('is_active', 'yes')->orderBy('nama_produk', 'desc')->get();
         
         $querySQL= "
+                SELECT 
+            mp.nama_produk,
+            mp.produk_id,
+            mp.stock,
+            r.tanggal,
+            r.rop_id,
+            r.lead_time,
+            r.safety_stock,
+            r.tingkat_permintaan,
+            r.rop
+        FROM master_produk mp
+        JOIN (
             SELECT 
-                mp.nama_produk,
-                mp.produk_id,
-                mp.stock, 
-                rp.tanggal,
-                op.rop_id,
-                op.lead_time,
-                op.safety_stock,
-                op.tingkat_permintaan,
-                op.rop
-            FROM master_produk mp
-            JOIN (
-                SELECT produk_id, MAX(tanggal) as tanggal 
-                FROM rop 
-                GROUP BY produk_id
-            ) rp ON mp.produk_id = rp.produk_id
-            JOIN rop op ON op.produk_id = mp.produk_id AND op.tanggal = rp.tanggal 
+                rop_id,
+                produk_id,
+                tanggal,
+                lead_time,
+                safety_stock,
+                tingkat_permintaan,
+                rop,
+                ROW_NUMBER() OVER (PARTITION BY produk_id ORDER BY tanggal DESC) AS rn
+            FROM rop
+        ) r ON mp.produk_id = r.produk_id
+        WHERE r.rn = 1
 
         ";
         // Variabel untuk menampung parameter query 
@@ -81,13 +88,13 @@ class ROPController extends Controller
 
 
          if ($search) {
-            $querySQL .= " WHERE mp.nama_produk LIKE ?";
+            $querySQL .= " AND mp.nama_produk LIKE ?";
             $parameterQuery[] = '%' . $search . '%'; // Tambahkan wildcard % untuk mencari bagian dari nama
         }
          if ($kritis) {
         $querySQL .= " AND mp.stock < op.rop";
     }
-         $querySQL .= " ORDER BY rp.tanggal DESC";
+         $querySQL .= " ORDER BY tanggal DESC";
 
       
         $data = DB::select($querySQL, $parameterQuery);

@@ -147,9 +147,9 @@
                                     <tr>
                                         <th>Nama Produk</th>
                                         <th>Stok</th>
-                                        <th>Safety Stock</th>
-                                        <th>Lead Time</th>
-                                        <th>Permintaan Harian (rata-rata)</th>
+                                        <th>Safety Stock (cadangan)</th>
+                                        <th>Lead Time (waktu tunggu)</th>
+                                        <th>Permintaan (rata-rata)</th>
                                         <th>Nilai ROP</th>
                                     </tr>
                                 </thead>
@@ -158,7 +158,7 @@
                                      @php
                                         $isKritis = isset($item->rop) && isset($item->stock) && $item->stock < $item->rop;
                                     @endphp
-                                        <tr onclick="loadHistory({{ $item->produk_id }})" style="cursor:pointer" class="{{ $isKritis ? 'table-danger' : '' }}">
+                                        <tr  style="cursor:pointer" class="{{ $isKritis ? 'table-danger' : '' }}">
                                             
                                             <td>{{ $item->nama_produk }}</td>
                                             <td>{{ $item->stock }}</td>

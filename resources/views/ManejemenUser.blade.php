@@ -84,6 +84,7 @@
                                 <th>Role</th>
                                 <th>Nomor Telepon</th>
                                 <th class="text-center">Is Active</th>
+                                <!-- <th class="text-center">Aksi</th> </tr> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -104,6 +105,16 @@
                                         @endif
                                     </a>
                                 </td>
+                                <!-- <td class="text-center">
+                                    {{-- Tombol Update Password --}}
+                                    <button type="button" class="btn btn-sm btn-warning update-password-btn" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#updatePasswordModal" 
+                                            data-user-id="{{ $item->user_id }}"
+                                            data-user-name="{{ $item->nama_lengkap }}">
+                                        <i class="fas fa-key"></i> Ganti Password
+                                    </button>
+                                </td> -->
                             </tr>
                             @empty
                             <tr>
@@ -140,13 +151,96 @@
         </div>
     </div>
 
+
+    <!-- update password -->
+    <!-- <div class="modal fade" id="updatePasswordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{-- Aksi form akan diisi oleh JavaScript --}}
+                <form id="updatePasswordForm" method="POST" action="">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updatePasswordModalLabel">Ganti Password User: <span id="userNameSpan"></span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="password_update" class="form-label">Password Baru</label>
+                            <input type="password" class="form-control" id="password_update" name="password" required minlength="8">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password_confirmation_update" class="form-label">Konfirmasi Password Baru</label>
+                            <input type="password" class="form-control" id="password_confirmation_update" name="password_confirmation" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-warning">Update Password</button>
+                    </div>
+                </form>
+            </div> -->
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    
+    <!-- tanpa edit password -->
     @if ($errors->any())
         <script>
             var myModal = new bootstrap.Modal(document.getElementById('tambahUserModal'), { keyboard: false });
             myModal.show();
         </script>
     @endif
+    
+<!-- edit pw js -->
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Skrip untuk menampilkan modal Tambah User jika ada error validasi
+            @if ($errors->any() && !session('success') && !session('error')) // Tampilkan modal tambah jika ada error (dan bukan error update password yang ditangani di bawah)
+                var myModal = new bootstrap.Modal(document.getElementById('tambahUserModal'), { keyboard: false });
+                myModal.show();
+            @endif
+
+            // Skrip untuk menangani tombol Ganti Password
+            var updatePasswordModal = document.getElementById('updatePasswordModal');
+            updatePasswordModal.addEventListener('show.bs.modal', function (event) {
+                // Tombol yang memicu modal
+                var button = event.relatedTarget;
+                
+                // Ekstrak info dari data-* attributes
+                var userId = button.getAttribute('data-user-id');
+                var userName = button.getAttribute('data-user-name');
+                
+                // Dapatkan form dan span
+                var modalForm = updatePasswordModal.querySelector('#updatePasswordForm');
+                var userNameSpan = updatePasswordModal.querySelector('#userNameSpan');
+                
+                // Ubah aksi form
+                // Asumsi route Anda dinamai 'users.update-password' seperti saran sebelumnya
+                var updateRoute = '{{ url("users/update-password") }}/' + userId;
+                modalForm.setAttribute('action', updateRoute);
+
+                // Tampilkan nama user di judul modal
+                userNameSpan.textContent = userName;
+                
+                // Hapus data lama di input field
+                modalForm.querySelector('#password_update').value = '';
+                modalForm.querySelector('#password_confirmation_update').value = '';
+            });
+
+            // Skrip untuk menampilkan modal Update Password jika ada error validasi password
+            // Cek apakah ada error validasi, dan secara khusus jika ada error pada field 'password'
+            @if ($errors->has('password') || $errors->has('password_confirmation'))
+                // Jika ada error, kita asumsikan user sedang mencoba update password.
+                // Anda mungkin perlu logika yang lebih canggih jika ada banyak form.
+                var updateModal = new bootstrap.Modal(document.getElementById('updatePasswordModal'), { keyboard: false });
+                updateModal.show();
+            @endif
+        });
+    </script> -->
+
+
 </body>
 @endsection
 </html>

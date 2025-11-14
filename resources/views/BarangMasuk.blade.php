@@ -31,6 +31,20 @@
         .table thead {
             background-color: #e9ecef;
         }
+
+        input[readonly] {
+    /* Menghilangkan garis kursor (caret) yang berkedip */
+    caret-color: transparent !important; 
+    
+    /* Mencegah teks di dalamnya bisa diblok/diseleksi */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+    /* Mengubah ikon mouse menjadi tanda panah standar */
+    cursor: default !important; 
+}
     </style>
 </head>
 
@@ -225,7 +239,7 @@
                                         <td>{{ $h->nama_supplier }}</td>
 
                                         <td>{{ $h->user_name }}</td>
-                                        <td>{{ $h->keterangan }}</td>
+                                        <td>{{ $h->keterangan ?? '-' }}</td>
                                         <!-- ini harinya nyala buat detail  -->
                                         <td>
                                             <a href="{{ url('/barang-masuk/detail/' . $h->transaksi_masuk_id) }}"
@@ -297,7 +311,7 @@
             //         alert("Silakan pilih produk terlebih dahulu!");
             //         return;
             //     }
-            //      // 🔍 Cek apakah nama produk ada di datalist
+            //      //  Cek apakah nama produk ada di datalist
             //     let datalist = document.getElementById('produkList');
             //     let valid = false;
             //     for (let option of datalist.options) {
@@ -351,14 +365,14 @@
             //     let supplierList = document.getElementById('supplierList');
             //     let supplierName = supplierInput.value.trim();
 
-            //     // 🧩 1. Supplier wajib diisi
+            //     //  1. Supplier wajib diisi
             //     if (supplierName === '') {
             //         e.preventDefault();
             //         alert("Silakan pilih supplier terlebih dahulu!");
             //         return;
             //     }
 
-            //     // 🧩 2. Supplier harus cocok dengan master supplier
+            //     //  2. Supplier harus cocok dengan master supplier
             //     let supplierValid = false;
             //     for (let option of supplierList.options) {
             //         if (option.value.toLowerCase() === supplierName.toLowerCase()) {
@@ -375,7 +389,7 @@
             //         return;
             //     }
 
-            //     // 🧩 3. Harus ada minimal 1 produk
+            //     //  3. Harus ada minimal 1 produk
             //     if (selectedProduk.length === 0) {
             //         e.preventDefault();
             //         alert("Tambahkan minimal satu produk sebelum menyimpan transaksi!");
@@ -389,12 +403,12 @@
     
     document.addEventListener('DOMContentLoaded', function() {
         
-        // --- BAGIAN 1: SCRIPT UNTUK DROPDOWN PRODUK ---
+        // ---  UNTUK DROPDOWN PRODUK ---
         
         // Array untuk mencatat ID produk yang sudah di tabel (mencegah duplikat)
         let selectedProduk = []; 
 
-        // 1. Logika Tombol "Tambah"
+        //  Tombol "Tambah"
         document.getElementById('addProdukBtn').addEventListener('click', function () {
             // Ambil elemen select produk
             // DIUBAH: ID disesuaikan menjadi 'produkSelect' (tanpa underscore)
@@ -453,7 +467,7 @@
             }
         });
 
-        // --- BAGIAN 2: SCRIPT UNTUK VALIDASI SUBMIT ---
+        // ---  VALIDASI SUBMIT ---
         
         // Pasang pendengar di form saat di-submit (tombol Simpan Transaksi)
         document.querySelector('form').addEventListener('submit', function (e) {
@@ -502,7 +516,18 @@
 
 
 
-
+<script>
+    $(document).ready(function () {
+    
+        // === I PENGUNCIAN UNTUK TANGGAL TRANSAKSI UTAMA  ===
+        flatpickr("#tanggal_masuk", {
+            dateFormat: "d-m-Y",
+            maxDate: "today", 
+            disableMobile: true, 
+            clickOpens: false, 
+        });
+    });
+</script>
 
 
 
@@ -519,16 +544,16 @@
         <script>
 
             $(document).ready(function () {
-                // Tidak perlu inisialisasi massal lagi — kita buat 2 instance terpisah
+                
                 const today = new Date();
 
-                // instance untuk tanggal mulai (tanggal_mulai)
+                // (tanggal_mulai)
                 const fpAwal = flatpickr("#tanggal_mulai", {
                     dateFormat: "d-m-Y",
-                    maxDate: "today",        // Tanggal Mulai tidak bisa melebihi hari ini
+                    maxDate: "today",        //ga lebih dari hari ini
                     defaultDate: "{{ $filters['tanggal_mulai'] ?? '' }}" || today,
                     onChange: function (selectedDates, dateStr, instance) {
-                        // ketika tanggal awal diganti, set minDate untuk tanggal akhir
+                       
                         if (dateStr) {
                             fpAkhir.set('minDate', dateStr);
                         } else {
@@ -537,12 +562,12 @@
                     }
                 });
 
-                // instance untuk tanggal selesai (tanggal_selesai)
+                // (tanggal_selesai)
                 const fpAkhir = flatpickr("#tanggal_selesai", {
                     dateFormat: "d-m-Y",
                     maxDate: "today",
                     defaultDate: "{{ $filters['tanggal_selesai'] ?? '' }}",
-                    // jika sudah ada tanggal_mulai dari request, pastikan minDate diset
+                    // 
                     onReady: function (selectedDates, dateStr, instance) {
                         const awal = document.getElementById('tanggal_mulai').value;
                         if (awal) {

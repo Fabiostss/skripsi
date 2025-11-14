@@ -30,7 +30,7 @@ class MasterProdukController extends Controller
                 ->join('bahan as b', 'mp.bahan_id', '=', 'b.bahan_id')
                 ->join('satuan as s', 'mp.satuan_id', '=', 's.satuan_id');
 
-            // Menerapkan filter secara dinamis
+            // Menerapkan filter 
             foreach ($filters as $key => $value) {
                 if ($value) {
                     if ($key == 'search') {
@@ -44,7 +44,7 @@ class MasterProdukController extends Controller
             }
 
             $products = $query->select(
-                    'mp.produk_id', // Menambahkan produk_id untuk toggle status
+                    'mp.produk_id', // tooge ststus
                     'mp.nama_produk', 'k.nama_kategori', 't.nama_tipe',
                     'b.nama_bahan', 's.nama_satuan', 'mp.stock', 'mp.is_active'
                 )
@@ -78,6 +78,7 @@ class MasterProdukController extends Controller
             'satuan_id' => 'required|exists:satuan,satuan_id',
             'stock' => 'required|integer|min:0',
             'is_active' => 'required|in:yes,no',
+           
         ]);
 
         try {
@@ -89,6 +90,7 @@ class MasterProdukController extends Controller
                 'satuan_id' => $request->satuan_id,
                 'stock' => $request->stock,
                 'is_active' => $request->is_active,
+                'deskripsi' => $request->deskripsi,
             ]);
             return Redirect::back()->with('success', 'Produk baru berhasil ditambahkan!');
         } catch (\Exception $e) {

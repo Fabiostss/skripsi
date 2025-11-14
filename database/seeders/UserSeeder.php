@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'nama_lengkap' => 'Fabio',
             'role_name' => 'admin',
             'nomor_telepon' => '08765432',
-            'email' => 'fabio@gmai.com',
+            'email' => 'fabio@gmail.com',
             'username' => 'fabio',
             'password' => Hash::make('fabio2424'), // Password 'fabio2424' di-hash di sini
         ]);

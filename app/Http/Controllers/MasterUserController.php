@@ -95,4 +95,36 @@ class MasterUserController extends Controller
             return Redirect::back()->with('error', 'Gagal mengubah status user.');
         }
     }
+
+//update pw
+// public function updatePassword(Request $request, $id)
+//     {
+//         // 1. Validasi input password baru
+//         $request->validate([
+//             'password' => ['required', 'string', 'min:8', 'confirmed'],
+//         ]);
+
+//         try {
+//             // 2. Cek apakah user ada
+//             $user = DB::table('users')->where('user_id', $id)->first();
+
+//             if (!$user) {
+//                 return Redirect::back()->with('error', 'User tidak ditemukan.');
+//             }
+
+//             // 3. Update password di database
+//             DB::table('users')
+//                 ->where('user_id', $id)
+//                 ->update([
+//                     'password' => Hash::make($request->input('password')),
+//                 ]);
+            
+//             return Redirect::back()->with('success', 'Password user berhasil diubah.');
+
+//         } catch (\Exception $e) {
+//             Log::error('Gagal mengubah password user ID ' . $id . ': ' . $e->getMessage());
+//             return Redirect::back()->with('error', 'Gagal mengubah password user.');
+//         }
+//     }
+
 }
