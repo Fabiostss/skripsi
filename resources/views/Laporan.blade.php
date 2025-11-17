@@ -117,44 +117,60 @@
                     <table class="table table-sm table-borderless summary-table summary-table text-start">
                         <tbody>
                             <tr>
-                                <td><strong>Keluar Terbanyak</strong></td>
-                                <td><strong>:</strong></td>
+                                <td class="align-top"><strong>Keluar Terbanyak</strong></td>
+                                <td class="align-top"><strong>:</strong></td>
                                 <td>
-                                    @if (isset($ringkasan['keluar_terbanyak']))
-                                       
-                                        {{ $ringkasan['keluar_terbanyak']->nama }} ({{ number_format($ringkasan['keluar_terbanyak']->total_keluar, 0, ',', '.') }})
+                                    {{-- Gunakan isNotEmpty() dan @foreach --}}
+                                    @if ($ringkasan['keluar_terbanyak']->isNotEmpty())
+                                        <ol style="padding-left: 1.2rem; margin-bottom: 0;">
+                                            @foreach ($ringkasan['keluar_terbanyak'] as $item)
+                                                <li>{{ $item->nama }} ({{ number_format($item->total_keluar, 0, ',', '.') }})</li>
+                                            @endforeach
+                                        </ol>
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td><strong>Masuk Terbanyak</strong></td>
-                                <td><strong>:</strong></td>
+                                <td class="align-top"><strong>Masuk Terbanyak</strong></td>
+                                <td class="align-top"><strong>:</strong></td>
                                 <td>
-                                     @if (isset($ringkasan['masuk_terbanyak']))
-                                        
-                                        {{ $ringkasan['masuk_terbanyak']->nama }} ({{ number_format($ringkasan['masuk_terbanyak']->total_masuk, 0, ',', '.') }})
+                                    {{-- Gunakan isNotEmpty() dan @foreach --}}
+                                    @if ($ringkasan['masuk_terbanyak']->isNotEmpty())
+                                        <ol style="padding-left: 1.2rem; margin-bottom: 0;">
+                                            @foreach ($ringkasan['masuk_terbanyak'] as $item)
+                                                <li>{{ $item->nama }} ({{ number_format($item->total_masuk, 0, ',', '.') }})</li>
+                                            @endforeach
+                                        </ol>
                                     @else
                                         -
                                     @endif
                                 </td>
                             </tr>
                             <tr>
-                                <td><strong>Keluar Paling Sedikit</strong></td>
-                                <td><strong>:</strong></td>
+                                <td class="align-top"><strong>Keluar Paling Sedikit</strong></td>
+                                <td class="align-top"><strong>:</strong></td>
                                 <td>
-                                    @if (isset($ringkasan['keluar_tersedikit']))
-                                       
-                                         {{ $ringkasan['keluar_tersedikit']->nama }} ({{ number_format($ringkasan['keluar_tersedikit']->total_keluar, 0, ',', '.') }})
+                                    {{-- Gunakan isNotEmpty() dan @foreach --}}
+                                    @if ($ringkasan['keluar_tersedikit']->isNotEmpty())
+                                        <ol style="padding-left: 1.2rem; margin-bottom: 0;">
+                                            @foreach ($ringkasan['keluar_tersedikit'] as $item)
+                                                <li>{{ $item->nama }} ({{ number_format($item->total_keluar, 0, ',', '.') }})</li>
+                                            @endforeach
+                                        </ol>
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td><strong>Masuk Paling Sedikit</strong></td>
-                                <td><strong>:</strong></td>
+                                <td class="align-top"><strong>Masuk Paling Sedikit</strong></td>
+                                <td class="align-top"><strong>:</strong></td>
                                 <td>
-                                    @if (isset($ringkasan['masuk_tersedikit']))
-                                        
-                                        {{ $ringkasan['masuk_tersedikit']->nama }} ({{ number_format($ringkasan['masuk_tersedikit']->total_masuk, 0, ',', '.') }})
+                                    {{-- Gunakan isNotEmpty() dan @foreach --}}
+                                    @if ($ringkasan['masuk_tersedikit']->isNotEmpty())
+                                        <ol style="padding-left: 1.2rem; margin-bottom: 0;">
+                                            @foreach ($ringkasan['masuk_tersedikit'] as $item)
+                                                <li>{{ $item->nama }} ({{ number_format($item->total_masuk, 0, ',', '.') }})</li>
+                                            @endforeach
+                                        </ol>
                                     @else
                                         -
                                     @endif

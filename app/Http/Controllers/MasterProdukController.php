@@ -90,7 +90,7 @@ class MasterProdukController extends Controller
                 'satuan_id' => $request->satuan_id,
                 'stock' => $request->stock,
                 'is_active' => $request->is_active,
-                'deskripsi' => $request->deskripsi,
+                
             ]);
             return Redirect::back()->with('success', 'Produk baru berhasil ditambahkan!');
         } catch (\Exception $e) {

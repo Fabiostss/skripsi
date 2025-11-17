@@ -339,18 +339,29 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
 
+                //uat satu array buat simpan idproduk yang sudah di add, terus saat mau masukan, chcek contain situ atau gak
+                  let selectedProduk = [];
                 // --- 1. LOGIKA TOMBOL "TAMBAH" ---
                 document.getElementById('addProdukBtn').addEventListener('click', function () {
                     let select = document.getElementById('produkSelect');
                     let tableBody = document.querySelector('#produkTable tbody');
 
                     let produkId = select.value; // Ambil ID produk, cth: "3"
+                    //jagaan agar produk di piliha ga dupplikags
+                     if (selectedProduk.includes(produkId)) {
+                    alert("Produk ini sudah ditambahkan!");
+                    return;
+                     }
+
 
                     // Cek saja apakah sudah pilih produk atau belum
                     if (!produkId) {
                         alert("Silakan pilih produk terlebih dahulu.");
                         return;
                     }
+                    
+                    selectedProduk.push(produkId);
+
 
                     let produkText = select.options[select.selectedIndex].text; // Ambil teks, cth: "Kopi (Stok: 10)"
 
@@ -377,8 +388,14 @@
                 document.addEventListener('click', function (e) {
                     // Cek apakah yang di-klik adalah tombol "Hapus"
                     if (e.target.classList.contains('removeRow')) {
+
+                         let produkId = e.target.getAttribute('data-id');
+                        selectedProduk = selectedProduk.filter(id => id !== produkId);
+                                  
                         // Hapus baris <tr> terdekat dari tombol yang di-klik
                         e.target.closest('tr').remove();
+
+                        // pop id produk dari array
                     }
                 });
 

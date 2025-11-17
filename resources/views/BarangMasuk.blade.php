@@ -406,6 +406,7 @@
         // ---  UNTUK DROPDOWN PRODUK ---
         
         // Array untuk mencatat ID produk yang sudah di tabel (mencegah duplikat)
+        
         let selectedProduk = []; 
 
         //  Tombol "Tambah"

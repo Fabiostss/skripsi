@@ -21,7 +21,7 @@ class BarangKeluarController extends Controller
                 ->where('is_active', 'yes')
                 ->orderBy('nama_produk', 'asc')->get();
 
-            // Data HANYA untuk form filter (produk yang pernah ada di transaksi keluar)
+            // Data cuma bwt untuk form filter (produk yang pernah ada di transaksi keluar)
             $productsForFilter = DB::table('detail_barang_keluar as dbk')
                                 ->join('master_produk as mp', 'dbk.produk_id', '=', 'mp.produk_id')
                                 ->select('mp.nama_produk')
@@ -29,7 +29,7 @@ class BarangKeluarController extends Controller
                                 ->orderBy('mp.nama_produk', 'asc')
                                 ->get();
 
-            // Memulai query builder untuk riwayat
+            // buat history riwayat
             $historyQuery = DB::table('barang_keluar as bk')
                 ->join('detail_barang_keluar as dbk', 'bk.transaksi_keluar_id', '=', 'dbk.transaksi_keluar_id') // dikomen jika ada mau ubahhh
                 ->join('master_produk as mp', 'dbk.produk_id', '=', 'mp.produk_id')  // comand kalo kalo mau ubah
@@ -43,7 +43,7 @@ class BarangKeluarController extends Controller
                     'bk.transaksi_keluar_id'//dbk//
                 );
 
-            // Terapkan filter tanggal mulai jika ada
+            // Terapkan filter tanggal mulai jika 
             if ($request->filled('tanggal_mulai')) {
                  $tanggalMulai = Carbon::createFromFormat('d-m-Y', $request->input('tanggal_mulai'))->format('Y-m-d');
                 $historyQuery->whereDate('bk.tanggal_keluar', '>=', $tanggalMulai);
@@ -55,7 +55,7 @@ class BarangKeluarController extends Controller
                  $historyQuery->whereDate('bk.tanggal_keluar', '<=', $tanggalSelesai);
             }
 
-            // Filter berdasarkan NAMA PRODUK (case-insensitive)
+            // Filter berdasarkan NAMA PRODUK 
             if ($request->filled('nama_produk')) {
                 $nama_produk_lower = strtolower($request->input('nama_produk'));
                 $historyQuery->where(DB::raw('LOWER(mp.nama_produk)'), 'like', '%' . $nama_produk_lower . '%');
@@ -75,7 +75,7 @@ class BarangKeluarController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            // Jika ada error, kembali ke dashboard dengan pesan yang jelas
+            // Jika ada error, kembali k dengan pesan yang jelas
             return redirect()->route('barang-keluar.index')->with('error', 'Gagal memuat halaman barang keluar: ' . $e->getMessage());
         }
     }

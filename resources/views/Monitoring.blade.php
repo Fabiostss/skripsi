@@ -21,7 +21,7 @@
     {{-- Tabel Laporan --}}
     <div class="card shadow-sm">
         <div class="card-body p-0">
-            <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
+            <div class="table-responsive" style="max-height: 900px; overflow-y: auto;">
                 <table class="table table-striped table-hover align-middle mb-0">
                     <thead class="table-light">
                         <tr>

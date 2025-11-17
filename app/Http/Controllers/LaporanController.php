@@ -17,10 +17,10 @@ class LaporanController extends Controller
 
         $data = [];
         $ringkasan = [
-            'keluar_terbanyak' => null,
-            'keluar_tersedikit' => null,
-            'masuk_terbanyak' => null,
-            'masuk_tersedikit' => null,
+          'keluar_terbanyak' => collect(),
+            'keluar_tersedikit' => collect(),
+            'masuk_terbanyak' => collect(),
+            'masuk_tersedikit' => collect(),
         ];
 
         // kalau param kosong, langsung kirim view kosong
@@ -147,6 +147,13 @@ class LaporanController extends Controller
                 return view('Laporan', ['data' => [], 'ringkasan' => $ringkasan]);
         }
 
+
+
+
+
+
+        
+
         $data = DB::select($query, [$tanggalAwal, $tanggalAkhir, $tanggalAwal, $tanggalAkhir]);
        
         // perubahan analisis data 
@@ -160,9 +167,9 @@ class LaporanController extends Controller
             // Cek apakah ada data setelah difilter
             if ($dataKeluarPositif->isNotEmpty()) {
                 // Ambil terbanyak (dari yang > 0)
-                $ringkasan['keluar_terbanyak'] = $dataKeluarPositif->sortByDesc('total_keluar')->first();
+                $ringkasan['keluar_terbanyak'] = $dataKeluarPositif->sortByDesc('total_keluar')->take(5);
                 // Ambil tersedikit (dari yang > 0)
-                $ringkasan['keluar_tersedikit'] = $dataKeluarPositif->sortBy('total_keluar')->first();
+                $ringkasan['keluar_tersedikit'] = $dataKeluarPositif->sortBy('total_keluar')->take(5);
             }
 
             //  Logika Masuk 
@@ -172,9 +179,9 @@ class LaporanController extends Controller
             // Cek apakah ada data setelah difilter
             if ($dataMasukPositif->isNotEmpty()) {
                 // Ambil terbanyak (dari yang > 0)
-                $ringkasan['masuk_terbanyak'] = $dataMasukPositif->sortByDesc('total_masuk')->first();
+                $ringkasan['masuk_terbanyak'] = $dataMasukPositif->sortByDesc('total_masuk')->take(5);
                 // Ambil tersedikit (dari yang > 0)
-                $ringkasan['masuk_tersedikit'] = $dataMasukPositif->sortBy('total_masuk')->first();
+                $ringkasan['masuk_tersedikit'] = $dataMasukPositif->sortBy('total_masuk')->take(5);
             }
         }
          // perubahan analisis data 
@@ -186,9 +193,7 @@ class LaporanController extends Controller
         return view('Laporan', compact('data', 'ringkasan'));
     }
 
-    public function laporan(){
-        return view('Laporan');
-    }
+   
 
 
 
@@ -324,10 +329,10 @@ class LaporanController extends Controller
         
        // perubahan analisis data 
          $ringkasan = [
-            'keluar_terbanyak' => null,
-            'keluar_tersedikit' => null,
-            'masuk_terbanyak' => null,
-            'masuk_tersedikit' => null,
+            'keluar_terbanyak' => collect(),
+            'keluar_tersedikit' => collect(),
+            'masuk_terbanyak' => collect(),
+            'masuk_tersedikit' => collect(),
          ]; // <-- Inisialisasi agar konsisten
 
         if (!empty($data)) {
@@ -340,9 +345,9 @@ class LaporanController extends Controller
             // Cek apakah ada data setelah difilter
             if ($dataKeluarPositif->isNotEmpty()) {
                 //  Ambil terbanyak (dari yang > 0)
-                $ringkasan['keluar_terbanyak'] = $dataKeluarPositif->sortByDesc('total_keluar')->first();
+                $ringkasan['keluar_terbanyak'] = $dataKeluarPositif->sortByDesc('total_keluar')->take(5);
                 //  Ambil tersedikit (dari yang > 0)
-                $ringkasan['keluar_tersedikit'] = $dataKeluarPositif->sortBy('total_keluar')->first();
+                $ringkasan['keluar_tersedikit'] = $dataKeluarPositif->sortBy('total_keluar')->take(5);
             }
 
             //  Logika Masuk 
@@ -352,9 +357,9 @@ class LaporanController extends Controller
             // Cek apakah ada data setelah difilter
             if ($dataMasukPositif->isNotEmpty()) {
                 // Ambil terbanyak (dari yang > 0)
-                $ringkasan['masuk_terbanyak'] = $dataMasukPositif->sortByDesc('total_masuk')->first();
+                $ringkasan['masuk_terbanyak'] = $dataMasukPositif->sortByDesc('total_masuk')->take(5);
                 // Ambil tersedikit (dari yang > 0)
-                $ringkasan['masuk_tersedikit'] = $dataMasukPositif->sortBy('total_masuk')->first();
+                $ringkasan['masuk_tersedikit'] = $dataMasukPositif->sortBy('total_masuk')->take(5);
             }
         }
      // perubahan analisis data 

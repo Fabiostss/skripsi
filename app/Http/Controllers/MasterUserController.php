@@ -71,7 +71,7 @@ class MasterUserController extends Controller
     }
 
     /**
-     * FUNGSI BARU: Untuk mengubah status is_active.
+     * FUNGSI Untuk mengubah status is_active.
      */
     public function toggleStatus($id)
     {

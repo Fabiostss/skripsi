@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class MasterBahanController extends Controller
 {
-    public function index(Request $request) // PERBAIKAN: Menggunakan 'Request' (huruf kapital)
+    public function index(Request $request) 
     { 
         try{
             $search = $request->input('search');

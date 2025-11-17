@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class MasterKategoriController extends Controller
 {
-    // KESALAHAN: Fungsi index() Anda belum menerima $request, sehingga tidak bisa membaca input pencarian.
-    // public function index()
+
     public function index(Request $request) // PERBAIKAN: Menambahkan Request $request
     { 
         try{

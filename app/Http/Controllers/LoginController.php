@@ -21,11 +21,11 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             if ($user->is_active == 'yes') {
-                // 5. JIKA 'yes', maka login berhasil. Lanjutkan seperti biasa.
+                //  JIKA 'yes', maka login berhasil. Lanjutkan seperti biasa.
                 $request->session()->regenerate();
                 return redirect()->intended('Monitoring');
             } else {
-                // 6. JIKA BUKAN 'yes', paksa logout lagi
+                //  JIKA BUKAN 'yes', paksa logout lagi
                 Auth::logout();
                 
                 // KIRIM PESAN ERROR KARENA AKUN TIDAK AKTIF

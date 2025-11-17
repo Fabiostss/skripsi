@@ -9,9 +9,7 @@ use Carbon\Carbon;
 
 class BarangMasukController extends Controller
 {
-    /**
-     * Menampilkan halaman form input dan riwayat barang masuk.
-     */
+ 
     public function index(Request $request)
     {
         try {
@@ -88,9 +86,7 @@ class BarangMasukController extends Controller
         }
     }
 
-    /**
-     * Menyimpan data transaksi barang masuk baru.
-     */
+  
     public function store(Request $request)
     {
         $request->validate([
