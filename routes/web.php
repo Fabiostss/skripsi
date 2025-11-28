@@ -28,7 +28,7 @@ Route::get('/Monitoring', [MonitoringController::class, 'index'])->name('Monitor
 // Tambahkan route ini, sebaiknya di dalam grup middleware auth Anda
 // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/Laporan', [LaporanController::class, 'index'])->name('Laporan.index');
+Route::get('/Laporan', [LaporanController::class, 'index'])->name('Laporan.index') ->middleware(['auth', 'role:owner']);
 //Route::get('/Laporan/cari', [LaporanController::class, 'index'])->name('laporan.cari');
 Route::get('/laporan/export', [LaporanController::class, 'exportPDF'])->name('laporan.export');
 

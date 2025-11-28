@@ -51,7 +51,7 @@ class MasterUserController extends Controller
             'role_name' => ['required', 'string', 'in:admin,owner'],
             'nomor_telepon' => ['required', 'string', 'max:15'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'is_active' => 'required|in:yes,no', // Menambahkan validasi is_active
+            'is_active' => 'required|in:yes,no', 
         ]);
         
         try {
@@ -70,9 +70,7 @@ class MasterUserController extends Controller
         }
     }
 
-    /**
-     * FUNGSI Untuk mengubah status is_active.
-     */
+    
     public function toggleStatus($id)
     {
         try {

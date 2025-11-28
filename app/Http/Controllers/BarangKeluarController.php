@@ -9,9 +9,7 @@ use Carbon\Carbon;
 
 class BarangKeluarController extends Controller
 {
-    /**
-     * Menampilkan form input dan riwayat barang keluar dalam satu halaman.
-     */
+    
     public function index(Request $request) // Tambahkan Request $request
     {
         try {
@@ -81,9 +79,7 @@ class BarangKeluarController extends Controller
     }
     
 
-    /**
-     * Menyimpan data transaksi barang keluar baru.
-     */
+ 
     public function store(Request $request)
     {
         $request->validate([
@@ -132,6 +128,7 @@ class BarangKeluarController extends Controller
         
         return redirect()->route('barang-keluar.index')->with('success', 'Transaksi barang keluar berhasil disimpan!');
     }
+    
    public function detail($id){
     // Ambil data header transaksi (barang_keluar)
     $header = DB::table('barang_keluar as bk')

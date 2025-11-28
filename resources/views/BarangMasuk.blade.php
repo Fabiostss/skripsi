@@ -412,7 +412,7 @@
         //  Tombol "Tambah"
         document.getElementById('addProdukBtn').addEventListener('click', function () {
             // Ambil elemen select produk
-            // DIUBAH: ID disesuaikan menjadi 'produkSelect' (tanpa underscore)
+    
             let select = document.getElementById('produkSelect'); 
             let tableBody = document.querySelector('#produkTable tbody');
             
@@ -420,19 +420,19 @@
             let produkId = select.value; 
             let produkText = select.options[select.selectedIndex].text;
 
-            // Validasi 1: Sudah pilih produk?
+            // Validasi Sudah pilih produk lom
             if (!produkId) {
                 alert("Silakan pilih produk terlebih dahulu.");
                 return; 
             }
 
-            // Validasi 2: Cek duplikat
+            // Validasi Cek duplikat
             if (selectedProduk.includes(produkId)) {
                 alert("Produk ini sudah ditambahkan!");
                 return;
             }
             
-            // Lolos validasi: catat ID-nya
+            // kalo lulus validsany
             selectedProduk.push(produkId);
 
             // Buat baris tabel baru
@@ -474,10 +474,9 @@
         document.querySelector('form').addEventListener('submit', function (e) {
             
             // Ambil elemen select supplier
-            // DIUBAH: ID disesuaikan menjadi 'supplier_id'
             let supplierSelect = document.getElementById('supplier_id');
 
-            // Validasi 1: Supplier harus dipilih
+            // Validasi Supplier harus dipilih
             if (!supplierSelect.value) {
                 e.preventDefault(); // Hentikan submit form
                 alert("Silakan pilih supplier terlebih dahulu!");
@@ -485,7 +484,7 @@
                 return;
             }
 
-            // Validasi 2: Minimal 1 produk di tabel
+            // Validasi Minimal 1 produk di tabel
             if (selectedProduk.length === 0) {
                 e.preventDefault(); // Hentikan submit form
                 alert("Tambahkan minimal satu produk sebelum menyimpan transaksi!");

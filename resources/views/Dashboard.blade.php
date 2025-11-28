@@ -1,11 +1,11 @@
-{{-- File ini otomatis terhubung dengan layout sidebar Anda --}}
+
 @extends('SideBar')
 
 @section('title', 'Dashboard')
 
 @section('content')
 <style>
-    /* Style untuk KPI Card agar lebih menarik */
+   
     .kpi-card {
         border-radius: 0.75rem;
         box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -17,7 +17,7 @@
         box-shadow: 0 8px 16px rgba(0,0,0,0.08);
     }
     .kpi-icon {
-        font-size: 3rem; /* Ukuran ikon */
+        font-size: 3rem; 
         opacity: 0.7;
     }
     .list-group-item-top {
@@ -29,9 +29,9 @@
 <div class="container-fluid mt-4">
     <h3 class="mb-4">Dashboard</h3>
 
-    {{-- Baris untuk KPI Cards Utama --}}
+    {{-- Baris untuk  Cards Utama --}}
     <div class="row">
-        {{-- Card Total Produk (Layout diubah ke col-xl-4) --}}
+        {{-- Card Total Produk --}}
         <div class="col-xl-4 col-md-6 mb-4">
             <div class="card kpi-card h-100">
                 <div class="card-body d-flex justify-content-between align-items-center">
@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        {{-- Card Produk Kritis (Layout diubah ke col-xl-4) --}}
+        {{-- Card Produk Kritis --}}
         <div class="col-xl-4 col-md-6 mb-4">
             <div class="card kpi-card h-100">
                 <div class="card-body d-flex justify-content-between align-items-center">
@@ -70,7 +70,6 @@
             </div>
         </div>
 
-        {{-- Card Total Nilai Aset (DIHAPUS KARENA SUDAH TIDAK ADA DI CONTROLLER) --}}
         
     </div>
 

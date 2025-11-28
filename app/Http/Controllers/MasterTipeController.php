@@ -9,13 +9,11 @@ use Illuminate\Support\Facades\Log;
 
 class MasterTipeController extends Controller
 {
-    /**
-     * Menampilkan halaman manajemen tipe dengan pencarian, filter, dan paginasi.
-     */
-    public function index(Request $request) // <-- PERUBAHAN PENTING 1: Menambahkan Request
+    
+    public function index(Request $request) 
     {
         try {
-            // PERUBAHAN PENTING 2: Menambahkan logika untuk menangani pencarian dan filter
+            //  untuk menangani pencarian dan filter
             $search = $request->input('search');
             $isActiveFilter = $request->input('is_active');
 
@@ -29,12 +27,12 @@ class MasterTipeController extends Controller
                 $query->where('nama_tipe', 'like', '%' . $search . '%');
             }
 
-            // Jika ada filter status, filter data berdasarkan is_active
+            //  filter data berdasarkan is_active
             if ($isActiveFilter && in_array($isActiveFilter, ['yes', 'no'])) {
                 $query->where('is_active', $isActiveFilter);
             }
 
-            // Melakukan paginasi pada data yang sudah difilter
+            //  paginasi pada data yang sudah difilter
             $tipe = $query->orderBy('tipe_id', 'desc')->paginate(10);
             
             // Memastikan parameter pencarian tetap ada saat berpindah halaman
@@ -93,9 +91,12 @@ class MasterTipeController extends Controller
             return Redirect::back()->with('error', 'Gagal mengubah status tipe.');
         }
     }
+
+
+
      /*
 
-    FITUR EDIT & DELETE (DIKOMENTARI UNTUK UJIAN)
+    FITUR EDIT & DELETE 
 
     
      Route::put('/Tipe/{id}', [MasterTipeController::class, 'update'])->name('tipe.update');

@@ -190,7 +190,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Nama</th>
-                                <th>Stok saat taggal di cetak</th>
+                                <th>Stok saat tanggal di cetak</th>
                                 <th>Total Keluar</th>
                                 <th>Total Masuk</th>
                             </tr>

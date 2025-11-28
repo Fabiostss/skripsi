@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         User::create([
             'name'     => 'Fabio',
             'nama_lengkap' => 'Fabio',
-            'role_name' => 'admin',
+            'role_name' => 'owner',
             'nomor_telepon' => '08765432',
             'email' => 'fabio@gmail.com',
             'username' => 'fabio',

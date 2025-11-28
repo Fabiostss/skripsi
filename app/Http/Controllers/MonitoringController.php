@@ -12,7 +12,7 @@ class MonitoringController extends Controller
      */
     public function index()
     {
-        // Query ini mengambil semua produk dan menggabungkannya dengan data ROP terbaru
+        // Query  mengambil semua produk dan menggabungkannya dengan data ROP terbaru
         // untuk setiap produk (berdasarkan tanggal paling akhir).
         $data = DB::table('master_produk as mp')
             ->leftJoin('rop as r', function ($join) {
@@ -23,7 +23,7 @@ class MonitoringController extends Controller
             ->select(
                 'mp.produk_id',
                 'mp.nama_produk',
-                'mp.stock as stok', // Menggunakan alias 'stok' agar konsisten
+                'mp.stock as stok', 
                 'r.rop'
             )
             ->orderBy('mp.nama_produk', 'desc')

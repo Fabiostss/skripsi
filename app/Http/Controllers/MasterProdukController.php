@@ -15,11 +15,11 @@ class MasterProdukController extends Controller
             // Mengambil semua input filter dari URL
             $filters = $request->only(['search', 'kategori_id', 'tipe_id', 'bahan_id', 'satuan_id', 'is_active']);
 
-            // Mengambil data master untuk dropdown filter (hanya yang aktif)
-            $kategoriList = DB::table('kategori')->where('is_active', 'yes')->orderBy('nama_kategori', 'asc')->get();
-            $tipeList = DB::table('tipe')->where('is_active', 'yes')->orderBy('nama_tipe', 'asc')->get();
-            $bahanList = DB::table('bahan')->where('is_active', 'yes')->orderBy('nama_bahan', 'asc')->get();
-            $satuanList = DB::table('satuan')->where('is_active', 'yes')->orderBy('nama_satuan', 'asc')->get();
+            // Mengambil data master untuk dropdown filter ( yang aktif)
+            $kategoriList = DB::table('kategori')->where('is_active', 'yes')->orderBy('kategori_id', 'Desc')->get();
+            $tipeList = DB::table('tipe')->where('is_active', 'yes')->orderBy('tipe_id', 'Desc')->get();
+            $bahanList = DB::table('bahan')->where('is_active', 'yes')->orderBy('bahan_id', 'Desc')->get();
+            $satuanList = DB::table('satuan')->where('is_active', 'yes')->orderBy('satuan_id', 'Desc')->get();
               // Menambahkan productList untuk dropdown pencarian nama produk
             $productList = DB::table('master_produk')->orderBy('nama_produk', 'asc')->get();
 
@@ -99,9 +99,9 @@ class MasterProdukController extends Controller
         }
     }
 
-    /**
-     * FUNGSI BARU: Untuk mengubah status is_active produk.
-     */
+    
+    //  ntuk mengubah status is_active produk.
+     
     public function toggleStatus($id)
     {
         try {
@@ -117,6 +117,7 @@ class MasterProdukController extends Controller
             return Redirect::back()->with('error', 'Gagal mengubah status produk.');
         }
     }
+    
       /*
   
     FITUR EDIT & DELETE

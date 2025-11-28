@@ -10,9 +10,7 @@ use Illuminate\Validation\Rule; // Diperlukan untuk validasi edit
 
 class MasterSupplierController extends Controller
 {
-    /**
-     * Menampilkan halaman manajemen supplier dengan filter status aktif.
-     */
+    
     public function index(Request $request)
     {
         try {
@@ -46,9 +44,7 @@ class MasterSupplierController extends Controller
         }
     }
 
-    /**
-     * Menyimpan supplier baru ke database.
-     */
+  
     public function store(Request $request)
     {
         $request->validate([
@@ -74,9 +70,7 @@ class MasterSupplierController extends Controller
         }
     }
 
-    /**
-     * Mengubah status is_active.
-     */
+    
     public function toggleStatus($id)
     {
         try {

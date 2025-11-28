@@ -89,7 +89,7 @@ class ROPController extends Controller
 
          if ($search) {
             $querySQL .= " AND mp.nama_produk LIKE ?";
-            $parameterQuery[] = '%' . $search . '%'; // Tambahkan wildcard % untuk mencari bagian dari nama
+            $parameterQuery[] = '%' . $search . '%'; 
         }
          if ($kritis) {
         $querySQL .= " AND mp.stock < op.rop";
@@ -110,7 +110,7 @@ class ROPController extends Controller
     $history = DB::table('rop')
         ->join('master_produk', 'rop.produk_id', '=', 'master_produk.produk_id')
         ->select(
-            DB::raw("DATE(rop.tanggal) as tanggal"), // hanya ambil tanggal (YYYY-MM-DD)
+            DB::raw("DATE(rop.tanggal) as tanggal"), //  ambil tanggal (YYYY-MM-DD)
             'master_produk.nama_produk',
             'rop.lead_time',
             'rop.safety_stock',

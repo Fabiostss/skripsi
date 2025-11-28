@@ -38,7 +38,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="mb-0">Manajemen Produk</h4>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahProdukModal">
-                    <i class="fas fa-plus me-2"></i>Tambah Produk
+                    <i class="fas fa-plus-circle me-2"></i>Tambah Produk
                 </button>
             </div>
             <div class="card-body">

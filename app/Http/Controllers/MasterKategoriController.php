@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 class MasterKategoriController extends Controller
 {
 
-    public function index(Request $request) // PERBAIKAN: Menambahkan Request $request
+    public function index(Request $request) 
     { 
         try{
             //  untuk mengambil input pencarian dan filter dari URL
@@ -20,13 +20,7 @@ class MasterKategoriController extends Controller
             //  query untuk mengambil daftar kategori untuk dropdown
             $kategoriList = DB::table('kategori')->orderBy('nama_kategori', 'asc')->get();
 
-            // catataaan salah  gara2 langsung mengambil data tanpa memfilter.
-            /*
-            $kategori = DB::table('kategori')
-                ->orderBy('kategori_id', 'desc')->paginate(10);
-            */
-
-            // 
+       
             $query = DB::table('kategori');
 
             if ($search) {
@@ -44,7 +38,7 @@ class MasterKategoriController extends Controller
 
             return view('ManejemenKategori',[
                 'kategori' => $kategori,
-                'kategoriList' => $kategoriList // Mengirim variabel baru ke view
+                'kategoriList' => $kategoriList 
             ]);
         } 
         catch (\Exception $e) {
@@ -66,7 +60,7 @@ class MasterKategoriController extends Controller
             DB::table('kategori')->insert([
                 'nama_kategori' => $request->input('nama_kategori'),
                 'deskripsi' => $request->input('deskripsi'),
-                'is_active' => $request->input('is_active'), // KESALAHAN: Ini belum ada di insert Anda
+                'is_active' => $request->input('is_active'), 
             ]);
             return Redirect::back()->with('success', 'Kategori berhasil ditambahkan!');
         } catch (\Exception $e) {
