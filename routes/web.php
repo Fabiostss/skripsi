@@ -4,6 +4,7 @@ use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\LatihanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterBahanController;
 use App\Http\Controllers\MasterKategoriController;
@@ -92,6 +93,9 @@ Route::get('/barang-keluar', [BarangKeluarController::class, 'index'])->name('ba
 Route::post('/barang-keluar', [BarangKeluarController::class, 'store'])->name('barang-keluar.store');
 Route::get('/barang-keluar/detail/{id}', [BarangKeluarController::class, 'detail']);
 
+//latiham
+Route::get('/coba', [LatihanController::class, 'index'])->name('coba.index')->middleware(['auth', 'role:admin']);
+Route::post('/coba', [LatihanController::class, 'store'])->name('coba.store');
 
 
 

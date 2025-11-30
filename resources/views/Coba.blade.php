@@ -63,9 +63,7 @@
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
+                           
                         </ul>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -77,9 +75,7 @@
                             <div class="input-group">
                                 <input type="text" name="search" list="KategoriOptions" class="form-control" placeholder="Cari nama kategori..." value="{{ $search ?? '' }}">
                                 <datalist id="KategoriOptions">
-                                        @foreach ($kategoriList as $item)
-                                            <option value="{{ $item->nama_kategori }}">
-                                        @endforeach
+                                        
                                     </datalist>
 
                                 <button class="btn btn-outline-secondary" type="submit"><i class="fa fa-search"></i></button>
@@ -109,21 +105,11 @@
                         </thead>
                         <tbody>
                             {{-- Menggunakan variabel $kategori sesuai dengan controller  --}}
-                            @forelse ($kategori as $index => $item)
+                         
                             <tr>
                                 {{-- Penomoran yang benar untuk paginasi --}}
-                                <td>{{ ($kategori->currentPage() - 1) * $kategori->perPage() + $loop->iteration }}</td>
-                                <td>{{ $item->nama_kategori }}</td>
-                                <td>{{ $item->deskripsi ?? '-' }}</td>
-                                  <td class="text-center">
-                                    <a href="{{ route('kategori.toggleStatus', $item->kategori_id) }}" class="text-decoration-none">
-                                        @if($item->is_active == 'yes')
-                                            <span class="badge bg-success">Yes</span>
-                                        @else
-                                            <span class="badge bg-danger">No</span>
-                                        @endif
-                                    </a>
-                                </td>
+                           
+                                  
                                 {{-- tombol Edit dan Hapus  --}}
                                 {{--
                                 <td class="text-center">
@@ -140,17 +126,17 @@
                                 </td>
                                 --}}
                             </tr>
-                            @empty
+                        
                             <tr>
                                 {{-- kolom Aksi aktif, jdi colspan menjadi "4" --}}
                                 <td colspan="3" class="text-center">Belum ada data kategori.</td>
                             </tr>
-                            @endforelse
+                            
                         </tbody>
                     </table>
                 </div>
                 <div class="pagination-reversed mt-3">
-                    {!! $kategori->links('pagination::bootstrap-5') !!}
+                    {!! ('pagination::bootstrap-5') !!}
                 </div>
             </div>
         </div>
@@ -161,7 +147,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 {{-- route bernama 'kategori.store' di web.php --}}
-                <form action="{{ route('kategori.store') }}" method="POST">
+                <form action="{{ route('coba.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="tambahKategoriModalLabel">Form Tambah Kategori</h5>
