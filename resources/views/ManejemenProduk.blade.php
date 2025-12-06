@@ -191,7 +191,7 @@
                         </tbody>
                     </table>
                 </div>
-                {{-- PERUBAHAN 6: Menambahkan blok untuk menampilkan tombol paginasi --}}
+                {{-- P Menambahkan blok untuk menampilkan tombol paginasi --}}
                 <div class="pagination-reversed mt-3">
                     {!! $products->links('pagination::bootstrap-5') !!}
                 </div>

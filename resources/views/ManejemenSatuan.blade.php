@@ -133,7 +133,7 @@
         </div>
     </div>
 
-    {{-- PERUBAHAN: Mengembalikan kode lengkap untuk Modal Tambah Satuan --}}
+    {{-- Mengembalikan kode lengkap untuk Modal Tambah Satuan --}}
     <!-- Modal Tambah Satuan -->
     <div class="modal fade" id="tambahSatuanModal" tabindex="-1" aria-labelledby="tambahSatuanModalLabel" aria-hidden="true">
         <div class="modal-dialog">

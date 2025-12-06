@@ -97,7 +97,7 @@
                                 <th scope="col">Nomor Telepon</th>
                                 <th scope="col">Alamat</th>
                                 <th scope="col" class="text-center">Is Active</th>
-                                {{-- CATATAN UNTUK UJIAN: Buka komentar di bawah ini untuk menampilkan kolom Aksi --}}
+                                {{--  untuk menampilkan kolom Aksi --}}
                                 {{--<th scope="col" class="text-center">Aksi</th>    --}}
                             </tr>
                         </thead>
@@ -139,7 +139,7 @@
                             </tr>
                             @empty
                             <tr>
-                                {{-- CATATAN UNTUK UJIAN: Jika kolom Aksi diaktifkan, ganti colspan menjadi "6" --}}
+                                {{-- Jika kolom Aksi diaktifkan, ganti colspan menjadi "6" --}}
                                 <td colspan="5" class="text-center">Data supplier tidak ditemukan.</td>
                             </tr>
                             @endforelse
@@ -209,7 +209,7 @@
   
 
 
-    {{-- CATATAN UNTUK UJIAN: Buka blok komentar di bawah ini untuk mengaktifkan Modal Edit & Hapus --}}
+    {{--  di bawah ini untuk mengaktifkan Modal Edit & Hapus --}}
     
     <!-- Modal Edit Supplier -->
      {{--
@@ -280,7 +280,7 @@
         </script>
     @endif
 
-    {{-- CATATAN UNTUK UJIAN: Buka komentar di bawah ini untuk mengaktifkan JavaScript untuk Modal Edit & Hapus --}}
+    {{-- bawah ini untuk mengaktifkan JavaScript untuk Modal Edit & Hapus --}}
     {{--
     <script>
         document.addEventListener('DOMContentLoaded', function() {

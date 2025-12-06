@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             row.style.display = shouldShow ? '' : 'none';
 
-            // Tambahkan atau hapus class 'table-danger' untuk pewarnaan
+            // Tambahkan atau hapus class 'table danger' untuk pewarnaan
             if (isKritis) {
                 row.classList.add('table-danger');
             } else {

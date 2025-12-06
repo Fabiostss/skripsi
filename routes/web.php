@@ -16,6 +16,7 @@ use App\Http\Controllers\MasterUserController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ROPController;
+use App\Http\Controllers\TagLatihanController;
 use Illuminate\Support\Facades\Route;
 
 //Route::get('/kelola', [MasterProdukController::class, 'MasterProduk']);
@@ -96,9 +97,11 @@ Route::get('/barang-keluar/detail/{id}', [BarangKeluarController::class, 'detail
 //latiham
 Route::get('/coba', [LatihanController::class, 'index'])->name('coba.index')->middleware(['auth', 'role:admin']);
 Route::post('/coba', [LatihanController::class, 'store'])->name('coba.store');
+Route::get('/coba/toggle-status/{id}', [LatihanController::class, 'toggleStatus'])->name('tes.toggleStatus');
 
-
-
+Route::get('/tag', [TagLatihanController::class, 'index'])->name('tag.index')->middleware(['auth', 'role:admin']);
+Route::post('/tag', [TagLatihanController::class, 'store'])->name('tag.store');
+Route::get('/tag/toggle-status/{id}', [TagLatihanController::class, 'toggleStatus'])->name('tag.toggleStatus');
 
 
 
