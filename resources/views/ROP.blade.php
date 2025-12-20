@@ -70,10 +70,9 @@
             <div class="card shadow-sm">
                 <div class="card-body p-4">
 
-                    <p class="text-muted small mb-4">Pilih produk untuk mengatur nilai Safety Stock dan Lead Time.
-                        Perhitungan permintaan harian dan nilai ROP akan dilakukan secara otomatis.</p>
+                    <!-- $isKritis  -->
 
-                    {{-- Form untuk mengirim data ke controller --}}
+                    <!-- {{-- Form untuk mengirim data ke controller --}}
                     <form action="{{ route('rop.storeOrUpdate') }}" method="POST" id="form-manajemen-rop">
                         @csrf {{-- Token CSRF untuk keamanan --}}
 
@@ -108,7 +107,7 @@
                                 <button type="submit" class="btn btn-primary">Simpan Pengaturan ROP</button>
                             </div>
                         </div>
-                    </form>
+                    </form> -->
 
                     {{-- Daftar ROP Semua Produk --}}
                     <div class="mt-5 pt-4 border-top">
@@ -129,7 +128,7 @@
                                     </datalist>
                                        <button class="btn btn-sm btn-outline-secondary" type="submit"><i class="fa fa-search"></i></button>
                                    </div>
-                                    <!-- buat tampilin stok kirtis -->
+                                  <!--   <!buat tampilin stok kirtis -->
                                    <!-- <div class="form-check form-switch ms-3">
                                         <input class="form-check-input" type="checkbox" name="kritis" id="kritisSwitch"
                                             onchange="this.form.submit()" {{ request('kritis') ? 'checked' : '' }}>
@@ -158,7 +157,7 @@
                                      @php
                                         $isKritis = isset($item->rop) && isset($item->stock) && $item->stock < $item->rop;
                                     @endphp
-                                        <tr  style="cursor:pointer" class="{{ $isKritis ? 'table-danger' : '' }}">
+                                        <tr   class="{{ $isKritis ? 'table-danger' : '' }}">
                                             
                                             <td>{{ $item->nama_produk }}</td>
                                             <td>{{ $item->stock }}</td>
@@ -177,26 +176,9 @@
                             </table>
                         </div>
                         <div class="mt-4">
-    <!-- <h5 class="fw-bold">History ROP Produk</h5>
-    <div class="table-responsive">
-        <table class="table table-bordered" id="historyTable">
-            <thead class="table-light">
-                <tr>
-                    <th>Tanggal</th>
-                    <th>Nama Produk</th>
-                    <th>Lead Time</th>
-                    <th>Safety Stock</th>
-                    <th>Permintaan Harian</th>
-                    <th>ROP</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="6" class="text-center text-muted">Klik produk untuk melihat history.</td>
-                </tr>
-            </tbody>
-        </table>
-    </div> -->
+                            
+
+                     
 </div>
 
 
@@ -206,10 +188,9 @@
                 </div>
             </div>
         </div>
-    <!-- </body>
-@endsection -->
+  
 
-{{-- Blok untuk script JavaScript --}}
+{{--  untuk script JavaScript --}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const productSelector = document.getElementById('rop-product-selector');
@@ -222,17 +203,16 @@
                 const selectedOption = this.options[this.selectedIndex];
 
                 if (this.value) {
-                    // Ambil data dari atribut data-*
+              
                     const safetyStock = 0;
                     const leadTime = 0;
-                    // Isi nilai input
+                
                     safetyStockInput.value = safetyStock;
                     leadTimeInput.value = leadTime;
 
-                    // Tampilkan container
                     detailsContainer.classList.remove('d-none');
                 } else {
-                    // Sembunyikan jika tidak ada produk yang dipilih
+                    
                     detailsContainer.classList.add('d-none');
                 }
             });
@@ -244,7 +224,7 @@
         .then(res => res.json())
         .then(data => {
             let tbody = document.querySelector("#historyTable tbody");
-            tbody.innerHTML = ""; // reset isi tabel
+            tbody.innerHTML = ""; 
 
             if (data.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Tidak ada history untuk produk ini.</td></tr>`;

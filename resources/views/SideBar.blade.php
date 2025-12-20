@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Sistem Inventori')</title>
     
-    {{-- Bootstrap CSS (jika Anda menggunakannya di halaman konten) --}}
+  
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* CSS Reset dan Pengaturan Dasar */
+        
         body {
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -17,19 +17,17 @@
             background-color: #f8f9fa;
         }
 
-        /* --- CSS UTAMA UNTUK SIDEBAR SCROLLABLE --- */
 
-        /* 1. Wrapper utama sidebar */
         .sidebar {
             width: 280px;
-            height: 100vh; /* Tinggi penuh layar */
+            height: 100vh; 
             background-color: #212529;
             color: #adb5bd;
-            position: fixed; /* Tetap di tempat saat di-scroll */
+            position: fixed; 
             top: 0;
             left: 0;
-            display: flex; /* Mengaktifkan Flexbox */ /* <-- KUNCI PERUBAHAN */
-            flex-direction: column; /* Mengatur item secara vertikal */ /* <-- KUNCI PERUBAHAN */
+            display: flex; 
+            flex-direction: column; 
             padding: 1.5rem;
             box-sizing: border-box;
         }
@@ -41,25 +39,25 @@
             color: #fff;
             padding-bottom: 1rem;
             border-bottom: 1px solid #495057;
-            flex-shrink: 0; /* Mencegah header mengecil saat konten penuh */ /* <-- KUNCI PERUBAHAN */
+            flex-shrink: 0; 
         }
 
-        /* 3. Container untuk menu (INI YANG AKAN SCROLL) */
+
         .sidebar-menu-container {
-            flex-grow: 1; /* Mengambil semua sisa ruang vertikal */ /* <-- KUNCI PERUBAHAN */
-            overflow-y: auto; /* Menampilkan scrollbar jika perlu */ /* <-- KUNCI PERUBAHAN */
+            flex-grow: 1; 
+            overflow-y: auto; 
             margin-top: 1rem;
             margin-bottom: 1rem;
         }
 
-        /* 4. Daftar Menu di dalam container */
+        
         .sidebar-menu {
             list-style: none;
             padding: 0;
             margin: 0;
         }
         
-        /* Styling untuk item menu */
+     
         .sidebar-menu-header {
             padding: 0.5rem 1rem;
             font-size: 0.8rem;
@@ -80,16 +78,16 @@
             color: #fff;
         }
         .sidebar-menu-item.active a {
-            background-color: #0d6efd; /* Warna biru Bootstrap */
+            background-color: #0d6efd; 
             color: #fff;
             font-weight: bold;
         }
 
-        /* 5. Footer Sidebar (tidak ikut scroll) */
+      
         .sidebar-footer {
             padding-top: 1rem;
             border-top: 1px solid #495057;
-            flex-shrink: 0; /* Mencegah footer mengecil saat konten penuh */ /* <-- KUNCI PERUBAHAN */
+            flex-shrink: 0; 
         }
         .sidebar-footer a {
             color: #adb5bd;
@@ -99,9 +97,9 @@
             color: #fff;
         }
 
-        /* --- CSS UNTUK KONTEN UTAMA --- */
+        
         .main-content {
-            margin-left: 280px; /* Memberi ruang selebar sidebar */
+            margin-left: 280px; 
             padding: 2rem;
             width: 100%;
         }
@@ -111,13 +109,13 @@
     @stack('styles')
 </head>
 <body>
-    {{-- STRUKTUR HTML SIDEBAR --}}
+   
     <nav class="sidebar">
         <div class="sidebar-header">
             PT Dapur Sehat Keluarga
         </div>
 
-        {{-- Container ini ditambahkan untuk membungkus menu agar bisa scroll --}} 
+   
         <div class="sidebar-menu-container">
             
         
@@ -184,7 +182,7 @@
         </div>
     </nav>
 
-    {{-- KONTEN UTAMA HALAMAN --}}
+
     <main class="main-content">
         @yield('content')
     </main>

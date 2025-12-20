@@ -24,7 +24,7 @@
             background-color: #e9ecef;
         }
         
-        /* PERUBAHAN: Menambahkan CSS paginasi yang sama persis seperti di halaman lain */
+     
         .pagination-reversed nav > div:first-child {
             flex-direction: row-reverse;
         }
@@ -96,8 +96,7 @@
                                 <th scope="col">Nama Tipe</th>
                                 <th scope="col">Deskripsi</th>
                                 <th scope="col" class="text-center">Is Active</th>
-                                {{-- notes:  untuk menampilkan kolom Aksi --}}
-                                {{-- <th scope="col" class="text-center">Aksi</th> --}}
+                              
                             </tr>
                         </thead>
                         <tbody>
@@ -134,7 +133,7 @@
                             </tr>
                             @empty
                             <tr>
-                                {{-- note: Jika kolom Aksi aktif, ubah colspan menjadi "5" --}}
+                                
                                 <td colspan="4" class="text-center">Belum ada data tipe.</td>
                             </tr>
                             @endforelse

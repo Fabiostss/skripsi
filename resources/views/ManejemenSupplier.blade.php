@@ -119,7 +119,7 @@
                                         @endif
                                     </a>
                                 </td>
-                                {{-- CATATAN UNTUK UJIAN: Buka komentar di bawah ini untuk menampilkan tombol Edit & Hapus --}}
+                               
                                 {{--
                                 <td class="text-center">
                                     <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editSupplierModal"
@@ -139,7 +139,7 @@
                             </tr>
                             @empty
                             <tr>
-                                {{-- Jika kolom Aksi diaktifkan, ganti colspan menjadi "6" --}}
+                           
                                 <td colspan="5" class="text-center">Data supplier tidak ditemukan.</td>
                             </tr>
                             @endforelse

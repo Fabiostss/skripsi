@@ -97,10 +97,6 @@ class MasterTipeController extends Controller
      /*
 
     FITUR EDIT & DELETE 
-
-    
-     Route::put('/Tipe/{id}', [MasterTipeController::class, 'update'])->name('tipe.update');
-     Route::delete('/Tipe/{id}', [MasterTipeController::class, 'destroy'])->name('tipe.destroy');
     
     */
 

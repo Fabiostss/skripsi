@@ -25,7 +25,7 @@ class BarangMasukController extends Controller
                                 ->orderBy('s.nama_supplier', 'asc')
                                 ->get();
             
-            // --- QUERY BARU UNTUK FILTER PRODUK ---
+            
             $productsForFilter = DB::table('detail_barang_masuk as dbm')
                                 ->join('master_produk as mp', 'dbm.produk_id', '=', 'mp.produk_id')
                                 ->select('mp.nama_produk')
@@ -41,6 +41,7 @@ class BarangMasukController extends Controller
                 ->join('users', 'bm.user_id', '=', 'users.user_id')
                 ->select(
                     'bm.tanggal_masuk',
+                    'bm.tanggal_pesanan_dibuat',
                     's.nama_supplier',
                     // 'mp.nama_produk', // comand kalo kalo mau ubah
                     // 'dbm.jumlah', // comand kalo kalo mau ubah
@@ -96,6 +97,8 @@ class BarangMasukController extends Controller
             'produk_id.*' => 'required|exists:master_produk,produk_id',
             'jumlah' => 'required|array',
             'jumlah.*' => 'required|integer|min:1',
+            'tanggal_pesanan_dibuat' => 'required|date_format:d-m-Y',
+            'tanggal_masuk' => 'required|date_format:d-m-Y',
         ]);
       
         try {
@@ -103,7 +106,9 @@ class BarangMasukController extends Controller
                 $transaksiId = DB::table('barang_masuk')->insertGetId([
                     'supplier_id' => $request->supplier_id,
                     'user_id' => Auth::id(),
-                    'tanggal_masuk' => Carbon::now(),
+                   
+                       'tanggal_pesanan_dibuat' => Carbon::createFromFormat('d-m-Y', $request->tanggal_pesanan_dibuat),
+                    'tanggal_masuk' => Carbon::createFromFormat('d-m-Y', $request->tanggal_masuk),
                     'keterangan' => $request->keterangan,
                 ]);
 

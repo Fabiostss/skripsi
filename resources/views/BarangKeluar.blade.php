@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome untuk Ikon -->
+    <!--  untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -78,8 +78,6 @@
                             <input type="date" name="tanggal_keluar" id="tanggal_keluar" class="form-control" readonly
                                 value="{{ date('Y-m-d') }}" required>
                         </div>
-
-                        {{-- Produk Dinamis --}}
                         <div class="row mb-3 align-items-end">
 
                             <!-- <div class="col-md-8">
@@ -115,7 +113,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- Baris produk akan ditambahkan via JS --}}
+                                {{-- Baris produk akan ditambahkan dari JS --}}
                             </tbody>
                         </table>
 
@@ -219,134 +217,21 @@
         <!-- Flatpickr JS -->
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        {{-- Script Tambah Produk ke Tabel (Sama seperti Barang Masuk) --}}
-        <!-- <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    let selectedProduk = [];
-
-                    document.getElementById('addProdukBtn').addEventListener('click', function () {
-                        let select = document.getElementById('produkSelect');
-                        let tableBody = document.querySelector('#produkTable tbody');
-                        let produkId = select.value;
-
-                        if (produkId) {
-                            if (selectedProduk.includes(produkId)) {
-                                alert("Produk ini sudah ditambahkan!");
-                                return;
-                            }
-
-                            selectedProduk.push(produkId);
-
-                            let row = document.createElement('tr');
-                            row.innerHTML = `
-                            <td>
-                                ${select.options[select.selectedIndex].text}
-                                <input type="hidden" name="produk_id[]" value="${produkId}">
-                            </td>
-                            <td>
-                                <input type="number" name="jumlah[]" value="1" min="1" class="form-control">
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-sm removeRow" data-id="${produkId}">Hapus</button>
-                            </td>
-                            `;
-                            tableBody.appendChild(row);
-                            select.value = '';
-                        }
-                    });
-
-                    document.addEventListener('click', function (e) {
-                        if (e.target.classList.contains('removeRow')) {
-                            let produkId = e.target.getAttribute('data-id');
-                            selectedProduk = selectedProduk.filter(id => id !== produkId);
-                            e.target.closest('tr').remove();
-                        }
-                    });
-                });
-            </script> -->
-
-        <!-- <script>
-                document.addEventListener('DOMContentLoaded', function() {
-
-                    // 1. Buat daftar cek
-                  const productMap = {
-                        @foreach($products as $p)
-                            // cth: "Kopi (Stok: 10)": "3"
-                            "{{ $p->nama_produk }} (Stok: {{ $p->stock }})": "{{ $p->produk_id }}",
-                        @endforeach
-                    }
-
-                    let selectedProduk = []; //  untuk lacak ID produk yg ada tabel
-
-                    // 2. Tombol "Tambah"
-                    document.getElementById('addProdukBtn').addEventListener('click', function () {
-                        let input = document.getElementById('produkSelect');
-                        let tableBody = document.querySelector('#produkTable tbody');
-
-                        let productFullName = input.value; // conoth "testess"
-
-                        // Cari "testess" 
-                        let produkId = productMap[productFullName]; 
-
-                        // --- penjangaan ---
-                        if (!produkId) { // Jika 'produkId' tidak ada (
-                            alert("Produk tidak ada di master! Silakan pilih dari daftar.");
-                            return; // <-- Script berhenti di sini
-                        }
-                        // --- akhir penjnagaan ---
-
-                        // Cek duplikat berdasarkan ID 
-                        if (selectedProduk.includes(produkId)) {
-                            alert("Produk ini sudah ditambahkan!");
-                            return;
-                        }
-
-                        selectedProduk.push(produkId);
-
-                        // Buat baris tabel baru
-                        let row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>
-                                ${productFullName} 
-                                <input type="hidden" name="produk_id[]" value="${produkId}">
-                           </td>
-                            <td>
-                                <input type="number" name="jumlah[]" value="1" min="1" class="form-control">
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-sm removeRow" data-id="${produkId}">Hapus</button>
-                            </td>
-                            `;
-                            tableBody.appendChild(row);
-                            input.value = ''; 
-                    });
-
-                    // 3. Logika Tombol "Hapus"
-                    document.addEventListener('click', function (e) {
-                        if (e.target.classList.contains('removeRow')) {
-                            let produkIdToHapus = e.target.getAttribute('data-id');
-
-                            selectedProduk = selectedProduk.filter(id => id !== produkIdToHapus); 
-                            e.target.closest('tr').remove();
-                        }
-                    });
-                });
-            </script> -->
-
+        
 
 
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
 
-                //uat satu array buat simpan idproduk yang sudah di add, terus saat mau masukan, chcek contain situ atau gak
+   
                   let selectedProduk = [];
-                // --- 1. LOGIKA TOMBOL "TAMBAH" ---
+                // --- tombol tambah ---
                 document.getElementById('addProdukBtn').addEventListener('click', function () {
                     let select = document.getElementById('produkSelect');
                     let tableBody = document.querySelector('#produkTable tbody');
 
-                    let produkId = select.value; // Ambil ID produk, cth: "3"
+                    let produkId = select.value; 
                     //jagaan agar produk di piliha ga dupplikags
                      if (selectedProduk.includes(produkId)) {
                     alert("Produk ini sudah ditambahkan!");
@@ -354,7 +239,7 @@
                      }
 
 
-                    // Cek saja apakah sudah pilih produk atau belum
+                    
                     if (!produkId) {
                         alert("Silakan pilih produk terlebih dahulu.");
                         return;
@@ -363,7 +248,7 @@
                     selectedProduk.push(produkId);
 
 
-                    let produkText = select.options[select.selectedIndex].text; // Ambil teks, cth: "Kopi (Stok: 10)"
+                    let produkText = select.options[select.selectedIndex].text; 
 
                     // Buat baris tabel baru
                     let row = document.createElement('tr');
@@ -380,22 +265,21 @@
                     </td>
                 `;
 
-                    tableBody.appendChild(row); // Masukkan baris ke tabel
-                    select.value = ''; // Kosongkan dropdown
+                    tableBody.appendChild(row); 
+                    select.value = ''; 
                 });
 
-                // --- 2. LOGIKA TOMBOL "HAPUS" ---
                 document.addEventListener('click', function (e) {
-                    // Cek apakah yang di-klik adalah tombol "Hapus"
+                    
                     if (e.target.classList.contains('removeRow')) {
 
                          let produkId = e.target.getAttribute('data-id');
                         selectedProduk = selectedProduk.filter(id => id !== produkId);
                                   
-                        // Hapus baris <tr> terdekat dari tombol yang di-klik
+                      
                         e.target.closest('tr').remove();
 
-                        // pop id produk dari array
+                       
                     }
                 });
 

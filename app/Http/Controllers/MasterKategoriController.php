@@ -95,8 +95,6 @@ class MasterKategoriController extends Controller
       /*
 
     FITUR EDIT & DELETE 
-    Route::put('/Kategori/{id}', [MasterKategoriController::class, 'update'])->name('kategori.update');
-    Route::delete('/Kategori/{id}', [MasterKategoriController::class, 'destroy'])->name('kategori.destroy');
     
     */
 

@@ -160,7 +160,7 @@
     <div class="modal fade" id="tambahKategoriModal" tabindex="-1" aria-labelledby="tambahKategoriModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                {{-- route bernama 'kategori.store' di web.php --}}
+             
                 <form action="{{ route('kategori.store') }}" method="POST">
                     @csrf
                     <div class="modal-header">
@@ -248,7 +248,7 @@
         </script>
     @endif
 
-    {{-- untuk mengaktifkan JavaScript untuk Modal Edit & Hapus --}}
+    {{-- untuk  JavaScript untuk Modal Edit & Hapus --}}
     {{--
     <script>
         document.addEventListener('DOMContentLoaded', function() {

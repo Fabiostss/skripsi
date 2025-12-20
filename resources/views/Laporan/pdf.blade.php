@@ -11,7 +11,7 @@
         th { background-color: #f2f2f2; }
         .info { margin-bottom: 15px; text-align: center; font-size: 11px; }
 
-        /* Style baru untuk ringkasan */
+        
         .summary-container {
             border: 1px solid #ccc;
             padding: 10px;
@@ -42,9 +42,7 @@
             Tanggal cetak: {{ now()->format('d-m-Y') }}
     </p>
 
-    {{-- =============================================== --}}
-    {{--         AWAL BAGIAN BARU: BLOK RINGKASAN        --}}
-    {{-- =============================================== --}}
+    
   @if (!empty($ringkasan))
     <div class="summary-container">
         <h4 class="summary-title">Ringkasan Laporan</h4>
@@ -63,7 +61,7 @@
                         -
                     @endif
 
-                    {{-- Ini adalah Jarak --}}
+                   
                     <div class="summary-spacer"></div>
 
                     <strong>Keluar Paling Sedikit:</strong>
@@ -90,7 +88,7 @@
                         -
                     @endif
                     
-                    {{-- Ini adalah Jarak --}}
+                    
                     <div class="summary-spacer"></div>
 
                     <strong>Masuk Paling Sedikit:</strong>

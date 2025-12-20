@@ -11,7 +11,7 @@ class LaporanController extends Controller
 {
     public function index(Request $request)
     {
-        $kelompok = $request->input('kelompok'); // produk, kategori, tipe, bahan
+        $kelompok = $request->input('kelompok'); 
         $tanggalAwal = $request->input('tanggal_awal');
         $tanggalAkhir = $request->input('tanggal_akhir');
 
@@ -23,7 +23,7 @@ class LaporanController extends Controller
             'masuk_tersedikit' => collect(),
         ];
 
-        // kalau param kosong, langsung kirim view kosong
+        
         if (!$kelompok || !$tanggalAwal || !$tanggalAkhir) {
             return view('Laporan', compact('data', 'ringkasan'));
         }
@@ -38,7 +38,7 @@ class LaporanController extends Controller
             AND DATE_ADD(STR_TO_DATE(?, '%d-%m-%Y'), INTERVAL 1 DAY) - INTERVAL 1 SECOND
         ";
 
-        // Logika query utama tetap sama
+
         switch ($kelompok) {
             case 'bahan':
                 $query = "
@@ -156,7 +156,7 @@ class LaporanController extends Controller
 
         $data = DB::select($query, [$tanggalAwal, $tanggalAkhir, $tanggalAwal, $tanggalAkhir]);
        
-        // perubahan analisis data 
+   
         if (!empty($data)) {
             $collection = collect($data);
 
@@ -172,8 +172,7 @@ class LaporanController extends Controller
                 $ringkasan['keluar_tersedikit'] = $dataKeluarPositif->sortBy('total_keluar')->take(5);
             }
 
-            //  Logika Masuk 
-            // Filter data masuk yang LEBIH BESAR DARI 0
+           
             $dataMasukPositif = $collection->where('total_masuk', '>', 0);
 
             // Cek apakah ada data setelah difilter
@@ -210,7 +209,7 @@ class LaporanController extends Controller
             return response()->json(['error' => 'Parameter tidak lengkap.'], 400);
         }
 
-        // Query dan switch case tetap sama
+     
         $queryTanggalKeluar = "
             WHERE bk.tanggal_keluar BETWEEN STR_TO_DATE(?, '%d-%m-%Y') 
             AND DATE_ADD(STR_TO_DATE(?, '%d-%m-%Y'), INTERVAL 1 DAY) - INTERVAL 1 SECOND
@@ -327,13 +326,13 @@ class LaporanController extends Controller
 
         $data = DB::select($query, [$tanggalAwal, $tanggalAkhir, $tanggalAwal, $tanggalAkhir]);
         
-       // perubahan analisis data 
+      
          $ringkasan = [
             'keluar_terbanyak' => collect(),
             'keluar_tersedikit' => collect(),
             'masuk_terbanyak' => collect(),
             'masuk_tersedikit' => collect(),
-         ]; // <-- Inisialisasi agar konsisten
+         ]; 
 
         if (!empty($data)) {
             $collection = collect($data);
@@ -362,7 +361,7 @@ class LaporanController extends Controller
                 $ringkasan['masuk_tersedikit'] = $dataMasukPositif->sortBy('total_masuk')->take(5);
             }
         }
-     // perubahan analisis data 
+     
 
         // --- Render HTML untuk PDF ---
         $html = view('laporan.pdf', [
@@ -370,7 +369,7 @@ class LaporanController extends Controller
             'tanggalAwal' => $tanggalAwal,
             'tanggalAkhir' => $tanggalAkhir,
             'data' => $data,
-            'ringkasan' => $ringkasan // <-- Tambahkan ini
+            'ringkasan' => $ringkasan 
         ])->render();
 
         // --- Generate PDF ---

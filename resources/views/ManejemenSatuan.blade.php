@@ -117,7 +117,7 @@
                             </tr>
                             @empty
                             <tr>
-                                {{-- CATATAN UNTUK UJIAN: Jika kolom Aksi aktif, ubah colspan menjadi "4" --}}
+                                
                                 <td colspan="3" class="text-center">Data satuan tidak ditemukan.</td>
                             </tr>
                             @endforelse
@@ -133,7 +133,7 @@
         </div>
     </div>
 
-    {{-- Mengembalikan kode lengkap untuk Modal Tambah Satuan --}}
+    
     <!-- Modal Tambah Satuan -->
     <div class="modal fade" id="tambahSatuanModal" tabindex="-1" aria-labelledby="tambahSatuanModalLabel" aria-hidden="true">
         <div class="modal-dialog">

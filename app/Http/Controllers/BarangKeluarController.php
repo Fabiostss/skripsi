@@ -17,7 +17,7 @@ class BarangKeluarController extends Controller
             $productsForForm = DB::table('master_produk')
                 ->where('stock', '>', 0)
                 ->where('is_active', 'yes')
-                ->orderBy('nama_produk', 'asc')->get();
+                ->orderBy('produk_id', 'Desc')->get();
 
             // Data cuma bwt untuk form filter (produk yang pernah ada di transaksi keluar)
             $productsForFilter = DB::table('detail_barang_keluar as dbk')

@@ -98,8 +98,6 @@ class MasterSupplierController extends Controller
 
      FITUR EDIT & DELETE 
  
-     Route::put('/supplier/{id}', [MasterSupplierController::class, 'update'])->name('supplier.update');
-     Route::delete('/supplier/{id}', [MasterSupplierController::class, 'destroy'])->name('supplier.destroy');
     
     */
 

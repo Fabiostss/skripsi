@@ -77,7 +77,7 @@ class MasterUserController extends Controller
             $user = DB::table('users')->where('user_id', $id)->first();
 
             if ($user) {
-                // Balik nilainya: jika 'yes' jadi 'no', dan sebaliknya
+               
                 $newStatus = $user->is_active == 'yes' ? 'no' : 'yes';
                 
                 DB::table('users')

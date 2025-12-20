@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <title>Laporan</title>
 
-    {{-- Bootstrap 5 --}}
+   
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    {{-- Flatpickr --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     <style>
@@ -58,7 +57,7 @@
 
     {{-- Judul Halaman --}}
     <div class="card p-4">
-        <h3 class="mb-3">Laporan Barang</h3>
+        <h3 class="mb-3">Laporan Manejemen</h3>
 
         {{-- Form Filter --}}
         <form method="GET" action="{{ url()->current() }}">
@@ -90,7 +89,7 @@
                     <button type="submit" class="btn btn-primary w-100">Cari</button>
                 </div>
                 <div class="col-md-2">
-                    {{-- Tombol ini sekarang mengarah ke route export PDF --}}
+                   
                     <a href="#" id="btnExportPdf" class="btn btn-danger w-100">Export PDF</a>
                 </div>
             </div>
@@ -109,9 +108,7 @@
                     <h4 class="mb-0">Hasil Laporan</h4>
                 </div>
 
-                {{-- =============================================== --}}
-                {{--         AWAL BAGIAN BARU: BLOK RINGKASAN         --}}
-                {{-- =============================================== --}}
+            
                 <div class="summary-section border rounded p-3 mb-4 bg-light">
                     <h5 class="mb-3">Ringkasan Laporan</h5>
                     <table class="table table-sm table-borderless summary-table summary-table text-start">
@@ -120,7 +117,7 @@
                                 <td class="align-top"><strong>Keluar Terbanyak</strong></td>
                                 <td class="align-top"><strong>:</strong></td>
                                 <td>
-                                    {{-- Gunakan isNotEmpty() dan @foreach --}}
+                                  
                                     @if ($ringkasan['keluar_terbanyak']->isNotEmpty())
                                         <ol style="padding-left: 1.2rem; margin-bottom: 0;">
                                             @foreach ($ringkasan['keluar_terbanyak'] as $item)
@@ -134,7 +131,7 @@
                                 <td class="align-top"><strong>Masuk Terbanyak</strong></td>
                                 <td class="align-top"><strong>:</strong></td>
                                 <td>
-                                    {{-- Gunakan isNotEmpty() dan @foreach --}}
+                                    
                                     @if ($ringkasan['masuk_terbanyak']->isNotEmpty())
                                         <ol style="padding-left: 1.2rem; margin-bottom: 0;">
                                             @foreach ($ringkasan['masuk_terbanyak'] as $item)
@@ -150,7 +147,7 @@
                                 <td class="align-top"><strong>Keluar Paling Sedikit</strong></td>
                                 <td class="align-top"><strong>:</strong></td>
                                 <td>
-                                    {{-- Gunakan isNotEmpty() dan @foreach --}}
+                                  
                                     @if ($ringkasan['keluar_tersedikit']->isNotEmpty())
                                         <ol style="padding-left: 1.2rem; margin-bottom: 0;">
                                             @foreach ($ringkasan['keluar_tersedikit'] as $item)
@@ -164,7 +161,7 @@
                                 <td class="align-top"><strong>Masuk Paling Sedikit</strong></td>
                                 <td class="align-top"><strong>:</strong></td>
                                 <td>
-                                    {{-- Gunakan isNotEmpty() dan @foreach --}}
+                                    
                                     @if ($ringkasan['masuk_tersedikit']->isNotEmpty())
                                         <ol style="padding-left: 1.2rem; margin-bottom: 0;">
                                             @foreach ($ringkasan['masuk_tersedikit'] as $item)
@@ -179,11 +176,9 @@
                         </tbody>
                     </table>
                 </div>
-                {{-- =============================================== --}}
-                {{--          AKHIR BAGIAN BARU: BLOK RINGKASAN        --}}
-                {{-- =============================================== --}}
+               
 
-                {{-- Tabel Detail Laporan --}}
+               
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead class="table-dark">
@@ -217,7 +212,7 @@
     @endif
 </div>
 
-<!-- MODAL UNTUK NOTIFIKASI  -->
+<!-- modal -->
 <div class="modal fade" id="notifModal" tabindex="-1" aria-labelledby="notifModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -226,7 +221,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="notifModalBody">
-        <!-- Pesan error akan diisi oleh JavaScript -->
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -234,9 +229,9 @@
     </div>
   </div>
 </div>
-<!-- MODAL UNTUK NOTIFIKASI  -->
 
-{{-- Bootstrap JS & Flatpickr --}}
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
@@ -244,7 +239,7 @@
 // Variabel untuk menyimpan instance modal
     let notifModal;
 
-    // Fungsi untuk menampilkan pesan modal
+    //  untuk menampilkan pesan modal
     function tampilkanPesan(pesan) {
         document.getElementById('notifModalBody').innerText = pesan;
         if (!notifModal) {
@@ -252,23 +247,23 @@
         }
         notifModal.show();
     }
-    // ---  VALIDASI TANGGAL ---
+    
 
     const fpAkhir = flatpickr("#tanggal_akhir", {
         dateFormat: "d-m-Y",
-        // minDate akan di-set oleh fpAwal
+        
     });
 
-    // Inisialisasi Flatpickr untuk Tanggal Awal
+    //  Flatpickr untuk Tanggal Awal
     const fpAwal = flatpickr("#tanggal_awal", {
         dateFormat: "d-m-Y",
-        maxDate: "today", // <-- VALIDASI: Tanggal Awal tidak bisa melebihi hari ini
+        maxDate: "today", 
         onChange: function(selectedDates, dateStr, instance) {
-            // Saat tanggal_awal diubah, set tanggal_akhir minimal
+            
             fpAkhir.set('minDate', dateStr);
         }
     });
-    // --- AKHIR PERUBAHAN VALIDASI TANGGAL ---
+    
 
     document.getElementById('btnExportPdf').addEventListener('click', function(e) {
         e.preventDefault();
@@ -282,8 +277,7 @@
             return;
         }
         
-        // Pastikan URL ini sesuai dengan route Anda di web.php
-       // --- KODE BARU (BENAR) ---
+       
 const url = `{{ url('/laporan/export') }}?kelompok=${kelompok}&tanggal_awal=${tanggalAwal}&tanggal_akhir=${tanggalAkhir}`;
         window.open(url, '_blank');
     });

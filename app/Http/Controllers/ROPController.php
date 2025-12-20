@@ -54,8 +54,26 @@ class ROPController extends Controller
         $search = $request->input('search');
          $kritis = $request->input('kritis');
 
-        $products = DB::table('master_produk') ->where('is_active', 'yes')->orderBy('nama_produk', 'desc')->get();
-        
+                    $ropProductIds = DB::table(DB::raw("
+                (
+                    SELECT 
+                        produk_id,
+                        ROW_NUMBER() OVER (PARTITION BY produk_id ORDER BY tanggal DESC) AS rn
+                    FROM rop
+                ) r
+            "))
+            ->where('rn', 1)
+            ->pluck('produk_id')
+            ->toArray();
+
+            $products = DB::table('master_produk')
+                ->where('is_active', 'yes')
+                ->whereIn('produk_id', $ropProductIds)
+                ->orderBy('produk_id', 'desc')
+                ->get();
+
+
+
         $querySQL= "
                 SELECT 
             mp.nama_produk,
@@ -81,6 +99,7 @@ class ROPController extends Controller
             FROM rop
         ) r ON mp.produk_id = r.produk_id
         WHERE r.rn = 1
+        
 
         ";
         // Variabel untuk menampung parameter query 
@@ -94,7 +113,7 @@ class ROPController extends Controller
          if ($kritis) {
         $querySQL .= " AND mp.stock < op.rop";
     }
-         $querySQL .= " ORDER BY tanggal DESC";
+         $querySQL .= " ORDER BY produk_id DESC";
 
       
         $data = DB::select($querySQL, $parameterQuery);

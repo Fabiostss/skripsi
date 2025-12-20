@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const isMatchSearch = namaProduk.includes(searchTerm);
             const isKritis = stok <= rop;
 
-            // Tentukan apakah baris harus ditampilkan atau disembunyikan
+           
             let shouldShow = isMatchSearch;
             if (showKritisOnly) {
                 shouldShow = isMatchSearch && isKritis;
@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             row.style.display = shouldShow ? '' : 'none';
 
-            // Tambahkan atau hapus class 'table danger' untuk pewarnaan
             if (isKritis) {
                 row.classList.add('table-danger');
             } else {
@@ -89,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Panggil filterTable saat pertama kali load untuk menerapkan warna awal
+    
     filterTable();
 
     searchInput.addEventListener('input', filterTable);

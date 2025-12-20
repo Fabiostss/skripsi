@@ -24,6 +24,13 @@
          .pagination-reversed nav > div:first-child {
             flex-direction: row-reverse;
         }
+        
+        .table img {
+            max-width: 50px;
+            max-height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
     </style>
 </head>
 
@@ -60,14 +67,13 @@
                     </div>
                 @endif
 
-                {{-- PERUBAHAN 1: Menambahkan FORMULIR PENCARIAN DAN FILTER yang lengkap --}}
+                {{-- PENCARIAN DAN FILTER --}}
                 <form action="{{ route('produk.index') }}" method="GET" class="mb-4 p-3 border rounded bg-light">
                     <div class="row g-2">
                         <div class="col-md-12">
                             <label for="search" class="form-label small">Nama Produk</label>
                             <input type="text" class="form-control form-control-sm" id="search" name="search" placeholder="Cari atau pilih Nama Produk..." value="{{ request('search') }}" list="productListOptions">
                             <datalist id="productListOptions">
-                                {{-- Pastikan controller mengirimkan variabel $productList --}}
                                 @foreach($productList as $product)
                                     <option value="{{ $product->nama_produk }}">
                                 @endforeach
@@ -128,30 +134,40 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th class="text-center">No</th>
                                 <th>Nama Produk</th>
                                 <th>Kategori</th>
                                 <th>Tipe</th>
                                 <th>Bahan</th>
                                 <th>Satuan</th>
-                                <!-- <th>Deskripsi</th> -->
-                                <th>Stok</th>
+                                <th style="width: 100px;">Deskripsi</th> 
+                                <th class="text-center">Gambar</th> 
+                                <th class="text-center">Stok</th>
                                 <th class="text-center">Is Active</th>
-                                {{-- untuk menampilkan kolom Aksi --}}
                                 {{-- <th class="text-center">Aksi</th> --}}
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($products as $product)
                             <tr>
-                                {{-- PERUBAHAN 3: Mengganti penomoran agar sesuai dengan paginasi --}}
                                 <td class="text-center">{{ ($products->currentPage() - 1) * $products->perPage() + $loop->iteration }}</td>
                                 <td>{{ $product->nama_produk }}</td>
                                 <td>{{ $product->nama_kategori }}</td>
                                 <td>{{ $product->nama_tipe }}</td>
                                 <td>{{ $product->nama_bahan }}</td>
                                 <td>{{ $product->nama_satuan }}</td>
-                            
+                                <td>{{ $product->deskripsi }}</td> 
+                                
+                                <td class="text-center">
+                                    @if ($product->gambar)
+                                        <a href="{{ asset('/' . $product->gambar) }}" target="_blank">
+                                            {{-- asset() akan mengarah ke public/GambarDiunggah/nama_file.jpg --}}
+                                            <img src="{{ asset('GambarDiunggah/' . $product->gambar) }}" alt="Img Produk">
+                                        </a>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td class="text-center">{{ $product->stock }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('produk.toggleStatus', ['id' => $product->produk_id]) }}" class="text-decoration-none">
@@ -162,36 +178,18 @@
                                         @endif
                                     </a>
                                 </td>
-                                {{--  ini untuk menampilkan tombol Edit & Hapus --}}
-                                {{--
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editProdukModal"
-                                        data-id="{{ $product->produk_id }}"
-                                        data-nama="{{ $product->nama_produk }}"
-                                        data-kategori="{{ $product->kategori_id }}"
-                                        data-tipe="{{ $product->tipe_id }}"
-                                        data-bahan="{{ $product->bahan_id }}"
-                                        data-satuan="{{ $product->satuan_id }}"
-                                        data-stok="{{ $product->stock }}">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#hapusProdukModal"
-                                        data-id="{{ $product->produk_id }}">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                                --}}
+                               
                             </tr>
                             @empty
                             <tr>
-                                {{-- kolom Aksi aktif, ubah colspan menjadi "9" --}}
-                                <td colspan="8" class="text-center">Data produk tidak ditemukan.</td>
+                                
+                                <td colspan="10" class="text-center">Data produk tidak ditemukan.</td> 
                             </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-                {{-- P Menambahkan blok untuk menampilkan tombol paginasi --}}
+                
                 <div class="pagination-reversed mt-3">
                     {!! $products->links('pagination::bootstrap-5') !!}
                 </div>
@@ -199,11 +197,11 @@
         </div>
     </div>
 
-    <!-- Modal Tambah Produk -->
     <div class="modal fade" id="tambahProdukModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="{{ route('produk.store') }}" method="POST">
+            
+            <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data"> 
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah Produk Baru</h5>
@@ -214,7 +212,8 @@
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label for="nama_produk" class="form-label">Nama Produk</label>
-                            <input type="text" class="form-control" id="nama_produk" name="nama_produk" required>
+                            <input type="text" class="form-control" id="nama_produk" name="nama_produk" required value="{{ old('nama_produk') }}">
+                            @error('nama_produk')<div class="text-danger small">{{ $message }}</div>@enderror
                         </div>
                     </div>
 
@@ -224,18 +223,20 @@
                             <select class="form-select" id="kategori_id" name="kategori_id" required>
                                 <option value="">-- Pilih Kategori --</option>
                                 @foreach($kategoriList as $k)
-                                    <option value="{{ $k->kategori_id }}">{{ $k->nama_kategori }}</option>
+                                    <option value="{{ $k->kategori_id }}" {{ old('kategori_id') == $k->kategori_id ? 'selected' : '' }}>{{ $k->nama_kategori }}</option>
                                 @endforeach
                             </select>
+                            @error('kategori_id')<div class="text-danger small">{{ $message }}</div>@enderror
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="tipe_id" class="form-label">Tipe</label>
                             <select class="form-select" id="tipe_id" name="tipe_id" required>
                                 <option value="">-- Pilih Tipe --</option>
                                 @foreach($tipeList as $t)
-                                    <option value="{{ $t->tipe_id }}">{{ $t->nama_tipe }}</option>
+                                    <option value="{{ $t->tipe_id }}" {{ old('tipe_id') == $t->tipe_id ? 'selected' : '' }}>{{ $t->nama_tipe }}</option>
                                 @endforeach
                             </select>
+                            @error('tipe_id')<div class="text-danger small">{{ $message }}</div>@enderror
                         </div>
                     </div>
 
@@ -245,38 +246,55 @@
                             <select class="form-select" id="bahan_id" name="bahan_id" required>
                                 <option value="">-- Pilih Bahan --</option>
                                 @foreach($bahanList as $b)
-                                    <option value="{{ $b->bahan_id }}">{{ $b->nama_bahan }}</option>
+                                    <option value="{{ $b->bahan_id }}" {{ old('bahan_id') == $b->bahan_id ? 'selected' : '' }}>{{ $b->nama_bahan }}</option>
                                 @endforeach
                             </select>
+                            @error('bahan_id')<div class="text-danger small">{{ $message }}</div>@enderror
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="satuan_id" class="form-label">Satuan</label>
                             <select class="form-select" id="satuan_id" name="satuan_id" required>
                                 <option value="">-- Pilih Satuan --</option>
                                 @foreach($satuanList as $s)
-                                    <option value="{{ $s->satuan_id }}">{{ $s->nama_satuan }}</option>
+                                    <option value="{{ $s->satuan_id }}" {{ old('satuan_id') == $s->satuan_id ? 'selected' : '' }}>{{ $s->nama_satuan }}</option>
                                 @endforeach
                             </select>
+                            @error('satuan_id')<div class="text-danger small">{{ $message }}</div>@enderror
                         </div>
                     </div>
-                    <!-- <div class="row mb-3">
+
+                    {{--  DESKRIPSI --}}
+                    <div class="row mb-3">
                         <div class="col-md-12">
-                            <label for="deskripsi" class="form-label">deskripsi</label>
-                            <input type="text" class="form-control" id="deskripsi" name="deskripsi">
+                            <label for="deskripsi" class="form-label">Deskripsi (Maks. 100 Karakter)</label>
+                            <input type="text" class="form-control" id="deskripsi" name="deskripsi" value="{{ old('deskripsi') }}">
+                            @error('deskripsi')<div class="text-danger small">{{ $message }}</div>@enderror
                         </div>
-                    </div> -->
+                    </div>
+
+                    {{-- GAMBAR --}}
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="gambar" class="form-label">Gambar Produk (Max 2MB, JPG/PNG)</label>
+                            
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                            @error('image')<div class="text-danger small">{{ $message }}</div>@enderror
+                        </div>
+                    </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="stock" class="form-label">Stok</label>
-                            <input type="number" class="form-control" id="stock" name="stock" min="0" required>
+                            <input type="number" class="form-control" id="stock" name="stock" min="0" required value="{{ old('stock') }}">
+                            @error('stock')<div class="text-danger small">{{ $message }}</div>@enderror
                         </div>
                         <div class="col-md-6">
                             <label for="is_active" class="form-label">Status</label>
                             <select class="form-select" id="is_active" name="is_active" required>
-                                <option value="yes">Aktif</option>
-                                <option value="no">Tidak Aktif</option>
+                                <option value="yes" {{ old('is_active') == 'yes' ? 'selected' : '' }}>Aktif</option>
+                                <option value="no" {{ old('is_active') == 'no' ? 'selected' : '' }}>Tidak Aktif</option>
                             </select>
+                            @error('is_active')<div class="text-danger small">{{ $message }}</div>@enderror
                         </div>
                     </div>
                 </div>
@@ -290,96 +308,21 @@
     </div>
     </div>
     
-    {{-- untuk mengaktifkan Modal Edit & Hapus --}}
-    {{--
-    <!-- Modal Edit Produk -->
-    <div class="modal fade" id="editProdukModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <form id="editProdukForm" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-header"><h5 class="modal-title">Edit Produk</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-                    <div class="modal-body">
-                        <div class="row"><div class="col-md-12 mb-3"><label class="form-label">Nama Produk</label><input type="text" class="form-control" id="edit_nama_produk" name="nama_produk" required></div></div>
-                        <div class="row">
-                             <div class="col-md-6 mb-3"><label class="form-label">Kategori</label><select class="form-select" id="edit_kategori_id" name="kategori_id" required>@foreach($kategoriList as $k)<option value="{{ $k->kategori_id }}">{{ $k->nama_kategori }}</option>@endforeach</select></div>
-                             <div class="col-md-6 mb-3"><label class="form-label">Tipe</label><select class="form-select" id="edit_tipe_id" name="tipe_id" required>@foreach($tipeList as $t)<option value="{{ $t->tipe_id }}">{{ $t->nama_tipe }}</option>@endforeach</select></div>
-                        </div>
-                        <div class="row">
-                             <div class="col-md-6 mb-3"><label class="form-label">Bahan</label><select class="form-select" id="edit_bahan_id" name="bahan_id" required>@foreach($bahanList as $b)<option value="{{ $b->bahan_id }}">{{ $b->nama_bahan }}</option>@endforeach</select></div>
-                             <div class="col-md-6 mb-3"><label class="form-label">Satuan</label><select class="form-select" id="edit_satuan_id" name="satuan_id" required>@foreach($satuanList as $s)<option value="{{ $s->satuan_id }}">{{ $s->nama_satuan }}</option>@endforeach</select></div>
-                        </div>
-                        <div class="mb-3"><label class="form-label">Stok</label><input type="number" class="form-control" id="edit_stock" name="stock" required min="0"></div>
-                    </div>
-                    <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary">Simpan Perubahan</button></div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Hapus Produk -->
-    <div class="modal fade" id="hapusProdukModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="hapusProdukForm" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <div class="modal-header"><h5 class="modal-title">Konfirmasi Hapus</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-                    <div class="modal-body"><p>Apakah Anda yakin ingin menghapus produk ini?</p></div>
-                    <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-danger">Ya, Hapus</button></div>
-                </form>
-            </div>
-        </div>
-    </div>
-    --}}
-
+   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    @if ($errors->any())<script>var myModal = new bootstrap.Modal(document.getElementById('tambahProdukModal'), { keyboard: false });myModal.show();</script>@endif
-
-    {{-- untuk mengaktifkan JavaScript untuk Modal Edit & Hapus --}}
-    {{--
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const editModal = document.getElementById('editProdukModal');
-            if(editModal) {
-                editModal.addEventListener('show.bs.modal', function(event) {
-                    const button = event.relatedTarget;
-                    // Mengambil semua data dari atribut data-* di tombol
-                    const id = button.getAttribute('data-id');
-                    const nama = button.getAttribute('data-nama');
-                    const kategori = button.getAttribute('data-kategori');
-                    const tipe = button.getAttribute('data-tipe');
-                    const bahan = button.getAttribute('data-bahan');
-                    const satuan = button.getAttribute('data-satuan');
-                    const stok = button.getAttribute('data-stok');
-
-                    const form = document.getElementById('editProdukForm');
-                    form.action = `/produk/${id}`; // Mengatur action form
-
-                    // Mengisi semua field di dalam form
-                    form.querySelector('#edit_nama_produk').value = nama;
-                    form.querySelector('#edit_kategori_id').value = kategori;
-                    form.querySelector('#edit_tipe_id').value = tipe;
-                    form.querySelector('#edit_bahan_id').value = bahan;
-                    form.querySelector('#edit_satuan_id').value = satuan;
-                    form.querySelector('#edit_stock').value = stok;
+   
+    @if ($errors->any())
+        <script>
+          
+            var tambahProdukModalElement = document.getElementById('tambahProdukModal');
+            if (tambahProdukModalElement) {
+                var myModal = new bootstrap.Modal(tambahProdukModalElement, {
+                    keyboard: false
                 });
+                myModal.show();
             }
-            
-            const hapusModal = document.getElementById('hapusProdukModal');
-            if(hapusModal) {
-                hapusModal.addEventListener('show.bs.modal', function(event) {
-                    const button = event.relatedTarget;
-                    const id = button.getAttribute('data-id');
-                    const form = document.getElementById('hapusProdukForm');
-                    form.action = `/produk/${id}`;
-                });
-            }
-        });
-    </script>
-    --}}
+        </script>
+    @endif
 </body>
 @endsection
 </html>
-

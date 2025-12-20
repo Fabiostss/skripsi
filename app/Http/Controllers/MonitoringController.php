@@ -7,13 +7,10 @@ use Illuminate\Support\Facades\DB;
 
 class MonitoringController extends Controller
 {
-    /**
-     * Menampilkan halaman Laporan Stok & ROP.
-     */
+    
     public function index()
     {
-        // Query  mengambil semua produk dan menggabungkannya dengan data ROP terbaru
-        // untuk setiap produk (berdasarkan tanggal paling akhir).
+        
         $data = DB::table('master_produk as mp')
             ->leftJoin('rop as r', function ($join) {
                 $join->on('mp.produk_id', '=', 'r.produk_id')
@@ -26,7 +23,7 @@ class MonitoringController extends Controller
                 'mp.stock as stok', 
                 'r.rop'
             )
-            ->orderBy('mp.nama_produk', 'desc')
+            ->orderBy('mp.produk_id', 'desc')
             ->get();
 
         // Mengirim data ke view

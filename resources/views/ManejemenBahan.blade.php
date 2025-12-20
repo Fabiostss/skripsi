@@ -25,7 +25,7 @@
             background-color: #e9ecef;
         }
         
-        /* CSS untuk paginasi agar sama seperti halaman supplier */
+        
         .pagination-reversed nav > div:first-child {
             flex-direction: row-reverse;
         }
@@ -54,7 +54,7 @@
                 @endif
                
 
-                {{-- Notifikasi error validasi umum, sama seperti halaman Supplier --}}
+                {{-- Notifikasi error validasi --}}
                @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <ul class="mb-0">
@@ -99,7 +99,7 @@
                                 <th scope="col">Nama Bahan</th>
                                 <th scope="col">Deskripsi</th>
                                 <th scope="col" class="text-center">Is Active</th>
-                                {{-- CATATAN UNTUK UJIAN: Buka komentar di bawah ini untuk menampilkan kolom Aksi --}}
+                               
                                 {{-- <th scope="col" class="text-center">Aksi</th> --}}
                             </tr>
                         </thead>
@@ -118,7 +118,7 @@
                                         @endif
                                     </a>
                                 </td>
-                                {{-- CATATAN UNTUK UJIAN: Buka komentar di bawah ini untuk menampilkan tombol Edit & Hapus --}}
+                                {{--  untuk  tombol Edit & Hapus --}}
                                 {{--
                                 <td class="text-center">
                                     <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editBahanModal"
@@ -136,7 +136,7 @@
                             </tr>
                             @empty
                             <tr>
-                                {{-- CATATAN UNTUK UJIAN: Jika kolom Aksi aktif, ubah colspan menjadi "5" --}}
+                                
                                 <td colspan="4" class="text-center">Belum ada data bahan.</td>
                             </tr>
                             @endforelse

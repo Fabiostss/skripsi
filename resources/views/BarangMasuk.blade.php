@@ -7,7 +7,7 @@
     <title>Barang Masuk</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome untuk Ikon -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -33,16 +33,16 @@
         }
 
         input[readonly] {
-    /* Menghilangkan garis kursor (caret) yang berkedip */
+    
     caret-color: transparent !important; 
     
-    /* Mencegah teks di dalamnya bisa diblok/diseleksi */
+
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
     
-    /* Mengubah ikon mouse menjadi tanda panah standar */
+   
     cursor: default !important; 
 }
     </style>
@@ -77,7 +77,7 @@
                     <form action="{{ route('barang-masuk.store') }}" method="POST">
                         @csrf
                         <div class="row mb-3">
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <label for="supplier_id" class="form-label">Supplier</label>
                                         <select name="supplier_id" id="supplier_id" class="form-select" required>
                                             <option value="">-- Pilih Supplier --</option>
@@ -101,12 +101,16 @@
                             </div>
 
                             <div class="col-md-3">
-                                <label for="tanggal_masuk" class="form-label">Tanggal Transaksi</label>
-                                <!-- <input type="date" name="tanggal_masuk" id="tanggal_masuk" class="form-control" readonly
-                                            value="{{ date('d-m-Y') }}" required> -->
-                                <input type="text" name="tanggal_masuk" id="tanggal_masuk" class="form-control" readonly
-                                    value="{{ date('d-m-Y') }}" required>
-                            </div>
+                                <label for="tanggal_pesanan_dibuat" class="form-label">Tanggal Pesanan Dibuat</label>
+                                <input type="text" name="tanggal_pesanan_dibuat" id="tanggal_pesanan_dibuat" 
+                                    class="form-control datepicker" 
+                                    value="{{ date('d-m-Y') }}" required> </div>
+
+                            <div class="col-md-3">
+                                <label for="tanggal_masuk" class="form-label">Tanggal Masuk</label>
+                                <input type="text" name="tanggal_masuk" id="tanggal_masuk" 
+                                    class="form-control datepicker" 
+                                    value="{{ date('d-m-Y') }}" required> </div>
                         </div>
 
                         {{-- Produk Dinamis --}}
@@ -147,7 +151,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- Baris produk akan ditambahkan via JS --}}
+                                {{-- Baris produk akan ditambahkan pake JS --}}
                             </tbody>
                         </table>
 
@@ -403,7 +407,7 @@
     
     document.addEventListener('DOMContentLoaded', function() {
         
-        // ---  UNTUK DROPDOWN PRODUK ---
+        // ---  bwt dropdown produk ---
         
         // Array untuk mencatat ID produk yang sudah di tabel (mencegah duplikat)
         
@@ -450,20 +454,20 @@
                 </td>
             `;
             
-            tableBody.appendChild(row); // Masukkan baris ke tabel
-            select.value = ''; // Kosongkan dropdown
+            tableBody.appendChild(row); 
+            select.value = ''; /
         });
 
-        // 2. Logika Tombol "Hapus"
+        //  Tombol "Hapus"
         document.addEventListener('click', function (e) {
-            // Cek jika yang diklik adalah tombol .removeRow
+           
             if (e.target.classList.contains('removeRow')) {
                 let produkIdToRemove = e.target.getAttribute('data-id');
                 
-                // Hapus ID dari array pencatat
+             
                 selectedProduk = selectedProduk.filter(id => id !== produkIdToRemove); 
                 
-                // Hapus baris <tr>
+                
                 e.target.closest('tr').remove();
             }
         });
@@ -478,7 +482,7 @@
 
             // Validasi Supplier harus dipilih
             if (!supplierSelect.value) {
-                e.preventDefault(); // Hentikan submit form
+                e.preventDefault(); 
                 alert("Silakan pilih supplier terlebih dahulu!");
                 supplierSelect.focus();
                 return;
@@ -486,7 +490,7 @@
 
             // Validasi Minimal 1 produk di tabel
             if (selectedProduk.length === 0) {
-                e.preventDefault(); // Hentikan submit form
+                e.preventDefault(); 
                 alert("Tambahkan minimal satu produk sebelum menyimpan transaksi!");
                 return;
             }
@@ -494,7 +498,21 @@
 
     });
 
+    flatpickr("#tanggal_pesanan_dibuat", {
+    dateFormat: "d-m-Y",
+    maxDate: "today",
+    
+    disableMobile: true
+});
+
+flatpickr("#tanggal_masuk", {
+    dateFormat: "d-m-Y",
+    maxDate: "today",
+    disableMobile: true
+});
+
    </script>
+   
 
 
 
@@ -517,16 +535,16 @@
 
 
 <script>
-    $(document).ready(function () {
+    // $(document).ready(function () {
     
-        // === I PENGUNCIAN UNTUK TANGGAL TRANSAKSI UTAMA  ===
-        flatpickr("#tanggal_masuk", {
-            dateFormat: "d-m-Y",
-            maxDate: "today", 
-            disableMobile: true, 
-            clickOpens: false, 
-        });
-    });
+    //     // === I PENGUNCIAN UNTUK TANGGAL TRANSAKSI UTAMA  ===
+    //     flatpickr("#tanggal_masuk", {
+    //         dateFormat: "d-m-Y",
+    //         maxDate: "today", 
+    //         disableMobile: true, 
+    //         clickOpens: false, 
+    //     });
+    // });
 </script>
 
 
@@ -550,7 +568,7 @@
                 // (tanggal_mulai)
                 const fpAwal = flatpickr("#tanggal_mulai", {
                     dateFormat: "d-m-Y",
-                    maxDate: "today",        //ga lebih dari hari ini
+                    maxDate: "today",        
                     defaultDate: "{{ $filters['tanggal_mulai'] ?? '' }}" || today,
                     onChange: function (selectedDates, dateStr, instance) {
                        

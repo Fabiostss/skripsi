@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class MasterProdukController extends Controller
 {
@@ -46,7 +47,7 @@ class MasterProdukController extends Controller
             $products = $query->select(
                     'mp.produk_id', // tooge ststus
                     'mp.nama_produk', 'k.nama_kategori', 't.nama_tipe',
-                    'b.nama_bahan', 's.nama_satuan', 'mp.stock', 'mp.is_active'
+                    'b.nama_bahan', 's.nama_satuan', 'mp.stock', 'mp.is_active', 'mp.deskripsi', 'mp.gambar'
                 )
                 ->orderBy('mp.produk_id', 'desc')
                 ->paginate(10);
@@ -78,9 +79,21 @@ class MasterProdukController extends Controller
             'satuan_id' => 'required|exists:satuan,satuan_id',
             'stock' => 'required|integer|min:0',
             'is_active' => 'required|in:yes,no',
-           
+            'deskripsi' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        
+        $imageLocation = null;
+
+        if ($request->hasFile('image')) {
+    $path = Storage::putFile('images', $request->file('image'));
+    $imageLocation = 'storage/' . $path;
+} else {
+    $imageLocation = null;
+}
+
+        
         try {
             DB::table('master_produk')->insert([
                 'nama_produk' => $request->nama_produk,
@@ -89,6 +102,8 @@ class MasterProdukController extends Controller
                 'bahan_id' => $request->bahan_id,
                 'satuan_id' => $request->satuan_id,
                 'stock' => $request->stock,
+                'gambar'=> $imageLocation,
+                'deskripsi' => $request->deskripsi,
                 'is_active' => $request->is_active,
                 
             ]);
@@ -118,14 +133,7 @@ class MasterProdukController extends Controller
         }
     }
     
-      /*
-  
-    FITUR EDIT & DELETE
-    
-    Route::put('/produk/{id}', [MasterProdukController::class, 'update'])->name('produk.update');
-    Route::delete('/produk/{id}', [MasterProdukController::class, 'destroy'])->name('produk.destroy');
-    
-    */
+     
 
     /*
     public function update(Request $request, $id)

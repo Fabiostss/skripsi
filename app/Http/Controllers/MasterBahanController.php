@@ -89,9 +89,6 @@ class MasterBahanController extends Controller
     /*
     
      FITUR EDIT & DELETE 
-    
-    Route::put('/Bahan/{id}', [MasterBahanController::class, 'update'])->name('bahan.update');
-    Route::delete('/Bahan/{id}', [MasterBahanController::class, 'destroy'])->name('bahan.destroy');
     */
 
     /*
